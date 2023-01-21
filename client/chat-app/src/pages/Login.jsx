@@ -7,14 +7,14 @@ import Logo from '../assets/logo.png';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios';
-import { registerRouter } from '../utils/APIroutes';
+import { loginRouter } from '../utils/APIroutes';
 import { useNavigate } from 'react-router-dom';
 
-function Register() {
+function Login() {
 const navigate = useNavigate();
 //manejo de estado local
 const [input, setInput] = useState({
-    email: "",
+    name: "",
     password: "",
 });
 
@@ -32,14 +32,14 @@ const toastifyOptions = {
 
 // eslint-disable-next-line no-unused-vars
 const handleValidation = () =>{
-    const {email, password} = input;
-    if(password.length<8){
-        toast.error("Passwords is short", toastifyOptions )
-        return false;
+    const {name, password} = input;
+    if(password === ""){
+      toast.error("Name and password ir required", toastifyOptions )
+      return false;
     }
-    else if(email === ""){
-        toast.error("email is required", toastifyOptions)
-        return false;
+    else if(name.length === ""){
+      toast.error("Name and password ir required", toastifyOptions )
+      return false;
     }
     return true;
 };
@@ -48,9 +48,9 @@ const handleValidation = () =>{
 const handleSubmit = async (event) =>{
     event.preventDefault();
     if(handleValidation()){
-        const {email, password} = input;
-        const {data} = await axios.post(registerRouter,{
-                email,
+        const {password, name} = input;
+        const {data} = await axios.post(loginRouter,{
+                name,
                 password,
     });
         if(data.status === false){
@@ -82,10 +82,11 @@ const handleChange = (event) =>{
                   <h1>chatapp</h1>
                 </div>
                 <input 
-                type="email"
-                placeholder='Insert your email'
-                name='email'
+                type="text"
+                placeholder='Insert your name'
+                name='name'
                 onChange={(e) => handleChange(e)}
+                min = "3"
                 />
                 <input 
                 type="password"
@@ -93,9 +94,9 @@ const handleChange = (event) =>{
                 name='password'
                 onChange={(e) => handleChange(e)}
                 />
-                <button type='submit'>Login</button>
+                <button type='submit'>Login In</button>
                 <span>
-                You do not have an account ? <Link to="/register">Register</Link>
+                Don't have an account ? <Link to="/register">Register</Link>
                 </span>
             </form> 
           </FormContainer>  
@@ -193,4 +194,4 @@ a{
 }
 `;
 
-export default Register;
+export default Login;

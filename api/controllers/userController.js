@@ -4,9 +4,6 @@ const bcrypt = require('bcrypt');
 module.exports.register = async (req, res, next) =>{
     try{
         const {name, email, password} = req.body;
-        if( !name || !email || !password ){
-            res.status(400).send('Not params');
-        };
         //Chequeamos que no exista el nombre
         const nameCheck = await User.findOne({name});
         if(nameCheck){
@@ -28,6 +25,26 @@ module.exports.register = async (req, res, next) =>{
         delete user.password;
         return res.json({status: true, user}); 
     }catch(err){
-        next("El error es aca:", err)
+        next("El error es aca en el register:", err)
+    }
+};
+
+module.exports.login = async (req, res, next) =>{
+    try{
+        const {name, password} = req.body;
+        //Chequeamos si existe el nombre
+        const user = await User.findOne({name});
+        if(!user){
+            return res.json({msg: "Incorrect name or password", status: false});
+        };
+        //Aca comparamos que el password que ingresamos es igual al que esta en la base de datos.
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if(!isPasswordValid){
+            return res.json({msg: "Incorrect name or password", status: false});
+        };
+        delete user.password;
+        return res.json({status: true, user}); 
+    }catch(err){
+        next("El error es aca en el login:", err)
     }
 };
