@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
 import {useState} from 'react';
@@ -19,7 +20,7 @@ const [input, setInput] = useState({
     password: "",
 });
 
-//reutilizar el diseño de Toastify.
+//reutilized el diseño de Toastify.
 const toastifyOptions = {
     position: "bottom-right",
     autoClose: 5000,
