@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios';
 import { loginRouter } from '../utils/APIroutes';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function Login() {
 const navigate = useNavigate();
@@ -29,6 +30,12 @@ const toastifyOptions = {
     progress: undefined,
     theme: "colored",
 }
+
+useEffect(() =>{
+    if(localStorage.getItem('chat-app-user')){
+        navigate('/')
+    }
+}, [])
 
 // eslint-disable-next-line no-unused-vars
 const handleValidation = () =>{
