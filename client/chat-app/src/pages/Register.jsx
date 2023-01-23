@@ -15,6 +15,7 @@ function Register() {
 const navigate = useNavigate();
 //manejo de estado local
 const [input, setInput] = useState({
+    img: "",
     name: "",
     email: "",
     password: "",
@@ -43,7 +44,7 @@ useEffect(() =>{
 
 // eslint-disable-next-line no-unused-vars
 const handleValidation = () =>{
-    const {name, email, password, confirmPassword} = input;
+    const {img, name, email, password, confirmPassword} = input;
     if(password !== confirmPassword){
         toast.error("Passwords do not match", toastifyOptions )
         return false;
@@ -60,6 +61,10 @@ const handleValidation = () =>{
         toast.error("email is required", toastifyOptions)
         return false;
     }
+    else if(img === ""){
+        toast.error("img is required", toastifyOptions)
+        return false;
+    }
     return true;
 };
 
@@ -67,8 +72,9 @@ const handleValidation = () =>{
 const handleSubmit = async (event) =>{
     event.preventDefault();
     if(handleValidation()){
-        const {name, email, password} = input;
+        const {img, name, email, password} = input;
         const {data} = await axios.post(registerRouter,{
+                img,
                 name,
                 email,
                 password,
@@ -92,6 +98,15 @@ const handleChange = (event) =>{
     })
 };
 
+const uploadImage = (files) =>{
+    const formData = new FormData()
+    formData.append("file", files[0])
+    formData.append("upload_preset", "gwdcxzmg")
+    axios.post("https://api.cloudinary.com/v1_1/datkl6kft/image/upload", formData)
+    .then((response) =>
+    console.log(response))
+}
+
 //formulario propiamente dicho:
     return ( 
         <>
@@ -106,6 +121,13 @@ const handleChange = (event) =>{
                 placeholder='Insert your name'
                 name='name'
                 onChange={(e) => handleChange(e)}
+                />
+                <input 
+                type="file"
+                placeholder=''
+                name='img'
+                accept='.jpg, .png, .jpeg'
+                onChange={(e) => uploadImage(e.target.files)}
                 />
                 <input 
                 type="email"

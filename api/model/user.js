@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
         max: 50,
         unique: true,
     },
-    email:{
+    email: {
         type: String,
         required: true,
         unique: true,
@@ -20,13 +20,11 @@ const userSchema = new mongoose.Schema({
     },
     //es la imagen que va a elejir la persona, es booleano por que dependiendo al principio en el registro
     //no va a poder seleccionar imagen, luego si.
-    isImgAvatar:{
-        type: Boolean,
-        default: false,
-    },
-    imgAvatar: {
+    img: {
         type: String,
-        default: "",
+    },
+    imgId: {
+        type: String,
     }
 });
 
