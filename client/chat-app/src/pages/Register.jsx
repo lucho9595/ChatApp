@@ -98,14 +98,27 @@ const handleChange = (event) =>{
     })
 };
 
-const uploadImage = (files) =>{
+async function uploadImage(e) {
+    let image = e.target.files[0];
+    console.log(e.target.files)
     const formData = new FormData()
-    formData.append("file", files[0])
+    formData.append("file", image)
     formData.append("upload_preset", "gwdcxzmg")
-    axios.post("https://api.cloudinary.com/v1_1/datkl6kft/image/upload", formData)
-    .then((response) =>
-    console.log(response))
-}
+    axios.post("https://api.cloudinary.com/v1_1/datkl6kft/image/upload",{
+        method: "POST",
+        body: formData,
+    })
+    .then((res) => res.json())
+    .then((res) => {
+        setInput({
+            ...input,
+            img: res.secure_url,
+            imgId: res.public_id,
+        })
+    })
+};
+
+console.log(input.img)
 
 //formulario propiamente dicho:
     return ( 
