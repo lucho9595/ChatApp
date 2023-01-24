@@ -98,25 +98,20 @@ const handleChange = (event) =>{
     })
 };
 
-async function uploadImage(e) {
-    let image = e.target.files[0];
-    console.log(e.target.files)
+const uploadImage = (files) =>{
     const formData = new FormData()
-    formData.append("file", image)
+    formData.append("file", files[0])
     formData.append("upload_preset", "gwdcxzmg")
-    axios.post("https://api.cloudinary.com/v1_1/datkl6kft/image/upload",{
-        method: "POST",
-        body: formData,
-    })
-    .then((res) => res.json())
+    axios.post("https://api.cloudinary.com/v1_1/datkl6kft/image/upload", formData)
     .then((res) => {
+        console.log(res)
         setInput({
             ...input,
-            img: res.secure_url,
-            imgId: res.public_id,
+            img: res.data.secure_url,
+            imgId: res.data.public_id,
         })
     })
-};
+}
 
 console.log(input.img)
 
@@ -142,6 +137,7 @@ console.log(input.img)
                 accept='.jpg, .png, .jpeg'
                 onChange={(e) => uploadImage(e.target.files)}
                 />
+                <img className="preview" src={input.img}/>
                 <input 
                 type="email"
                 placeholder='Insert your email'
@@ -173,9 +169,9 @@ console.log(input.img)
 
 //Le da formato al formulario
 const FormContainer = styled.div`
-height: 100vh;
-width: 100vw;
+width: 100vw;  
 display: flex;
+flex-wrap: wrap;
 flex-direction: column;
 justify-content: center;
 align-items: center;
@@ -183,10 +179,10 @@ background-color: #131324;
 .brand{
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
     justify-content: center;
     img{
-        height: 5rem;
+        height: 4rem;
     }
     h1{
         color: white;
@@ -196,11 +192,12 @@ background-color: #131324;
 form{
     display:flex;
     flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 1rem;
     background-color: #00000076;
-    padding: 3rem 5rem;
+    padding: 2rem 3rem;
     border-radius: 9px;
 }
 input{
@@ -241,7 +238,7 @@ button{
           align-self: center;
   font-size: 1rem;
   line-height: 1;
-  margin: 20px;
+  margin: 15px;
   padding: 1rem 2.8em;
   text-align: center;
   text-transform: uppercase;
@@ -257,6 +254,9 @@ a{
     text-decoration: none;
     font-weight: bold;
     color: #12456787;
+}
+.preview{
+    width: 150px;
 }
 `;
 
