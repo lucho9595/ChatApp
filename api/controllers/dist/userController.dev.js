@@ -175,3 +175,34 @@ module.exports.login = function _callee2(req, res, next) {
     }
   }, null, null, [[0, 18]]);
 };
+
+module.exports.getAllUsers = function _callee3(req, res, next) {
+  var user;
+  return regeneratorRuntime.async(function _callee3$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.prev = 0;
+          _context3.next = 3;
+          return regeneratorRuntime.awrap(User.find({
+            id: {
+              $ne: req.params.id
+            }
+          }).select(["email", "name", "img", "id"]));
+
+        case 3:
+          user = _context3.sent;
+          return _context3.abrupt("return", res.json(user));
+
+        case 7:
+          _context3.prev = 7;
+          _context3.t0 = _context3["catch"](0);
+          next("Aca esta el error:", _context3.t0);
+
+        case 10:
+        case "end":
+          return _context3.stop();
+      }
+    }
+  }, null, null, [[0, 7]]);
+};

@@ -58,11 +58,11 @@ const handleValidation = () =>{
         return false;
     }
     else if(email === ""){
-        toast.error("email is required", toastifyOptions)
+        toast.error("Email is required", toastifyOptions)
         return false;
     }
     else if(img === ""){
-        toast.error("img is required", toastifyOptions)
+        toast.error("Img is required", toastifyOptions)
         return false;
     }
     return true;
@@ -113,7 +113,7 @@ const uploadImage = (files) =>{
     })
 }
 
-console.log(input.img)
+console.log(input)
 
 //formulario propiamente dicho:
     return ( 

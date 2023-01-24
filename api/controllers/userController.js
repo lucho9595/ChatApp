@@ -90,3 +90,14 @@ module.exports.login = async (req, res, next) => {
         next("El error es aca en el login:", err)
     }
 };
+
+module.exports.getAllUsers = async (req, res, next) => {
+try{
+     const user = await User.find({id:{$ne:req.params.id}}).select([
+        "email", "name", "img", "id"
+     ])
+     return res.json(user)
+}catch(error){
+    next("Aca esta el error:", error);
+}
+};

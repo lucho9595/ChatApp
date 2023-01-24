@@ -19,7 +19,7 @@ const [input, setInput] = useState({
     name: "",
     password: "",
 });
-
+console.log(input)
 //reutilized el diseño de Toastify.
 const toastifyOptions = {
     position: "bottom-right",
@@ -38,6 +38,7 @@ useEffect(() =>{
     }
 }, [])
 
+console.log(localStorage.getItem('chat-app-user'))
 // eslint-disable-next-line no-unused-vars
 const handleValidation = () =>{
     const {name, password} = input;
