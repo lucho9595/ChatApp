@@ -3,37 +3,39 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { allUsers } from "../utils/APIroutes";
-import  Contacts  from '../components/Contacts';
+import Contacts from "../components/Contacts";
 
 function Chat() {
   const navigate = useNavigate();
   const [contacts, setContacts] = useState([]);
   const [currentUser, setCurrentUser] = useState(undefined);
 
-  useEffect( () => {
+  useEffect(() => {
     if (localStorage.getItem("chat-app-user") === null) {
-      navigate("/login")
+      navigate("/login");
     } else {
-      setCurrentUser( JSON.parse(localStorage.getItem("chat-app-user")))
+      setCurrentUser(JSON.parse(localStorage.getItem("chat-app-user")));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
-    if (currentUser) {
-      if(currentUser.img){
-       const data = axios.get(`${allUsers}/${currentUser.id}`);
-      setContacts(data.data);
-    }
-    }
+    const exist = async () => {
+      if (currentUser) {
+        if (currentUser.img) {
+          const data = await axios.get(`${allUsers}/${currentUser.id}`);
+          console.log(data);
+          setContacts(data.data);
+        }
+      }
+    };
+    exist()
   }, [currentUser]);
-
-  console.log(currentUser)
 
   return (
     <Container>
       <div className="container">
-       <Contacts contacts={contacts} currentUser={currentUser}/>
+        <Contacts contacts={contacts} currentUser={currentUser} />
       </div>
     </Container>
   );
