@@ -113,8 +113,6 @@ const uploadImage = (files) =>{
     })
 }
 
-console.log(input)
-
 //formulario propiamente dicho:
     return ( 
         <>

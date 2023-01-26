@@ -9,6 +9,7 @@ function Chat() {
   const navigate = useNavigate();
   const [contacts, setContacts] = useState([]);
   const [currentUser, setCurrentUser] = useState(undefined);
+  const [currentChat, setCurrentChat] = useState(undefined);
 
   useEffect(() => {
     if (localStorage.getItem("chat-app-user") === null) {
@@ -16,7 +17,6 @@ function Chat() {
     } else {
       setCurrentUser(JSON.parse(localStorage.getItem("chat-app-user")));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -29,13 +29,17 @@ function Chat() {
         }
       }
     };
-    exist()
+    exist();
   }, [currentUser]);
+
+  const handleChatChange = (chat) => {
+    setCurrentChat(chat)
+  };
 
   return (
     <Container>
       <div className="container">
-        <Contacts contacts={contacts} currentUser={currentUser} />
+        <Contacts contacts={contacts} currentUser={currentUser} changeChat={handleChatChange}/>
       </div>
     </Container>
   );
@@ -55,6 +59,10 @@ const Container = styled.div`
     width: 85vw;
     background-color: #00000076;
     display: grid;
+    grid-template-columns: 25% 75%;
+    @media screen and (min-width: 720px) and (max-width: 1080px) {
+      grid-template-columns: 35% 65%;
+    }
   }
 `;
 
