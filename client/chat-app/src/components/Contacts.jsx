@@ -1,8 +1,9 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/logo.png";
-
 function Contacts({ contacts, currentUser, changeChat }) {
   //define el estado del nombree del usuario
   const [currentName, setCurrentName] = useState(undefined);
@@ -10,7 +11,6 @@ function Contacts({ contacts, currentUser, changeChat }) {
   const [currentImage, setCurrentImage] = useState(undefined);
   //cuando seleccionamos un chat nos desvuelve lo que tenga
   const [currentSelected, setCurrentSelected] = useState(undefined);
-
   useEffect(() => {
     if (currentUser) {
       setCurrentImage(currentUser.img);
@@ -41,12 +41,19 @@ function Contacts({ contacts, currentUser, changeChat }) {
                   key={index}
                   onClick={() => changeCurrentChat(index, contact)}
                 >
-                  <div className="avatar">
-                    <img className="avatar" src={contact.img} alt="imagen" />
-                  </div>
-                  <div className="name">
-                    <h4>{contact.name}</h4>
-                  </div>
+                  {contact.img === currentUser.img &&
+                  contact.name === currentUser.name ? (
+                    <div class="auto" id="auto"></div>
+                  ) : (
+                    <div className="users">
+                      <div className="avatar">
+                        <img className="avatar" src={contact.img} />
+                      </div>
+                      <div className="name">
+                        <h4>{contact.name}</h4>
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -64,7 +71,6 @@ function Contacts({ contacts, currentUser, changeChat }) {
     </>
   );
 }
-
 const Container = styled.div`
   display: grid;
   grid-template-rows: 10% 75% 15%;
@@ -73,7 +79,7 @@ const Container = styled.div`
   .title {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     align-content: center;
     align-items: center;
     h1 {
@@ -85,12 +91,19 @@ const Container = styled.div`
       width: 35px;
     }
   }
+  //todos los contactos
   .contacts {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     overflow: auto;
     gap: 0.8rem;
+    min-height: 5rem;
+    width: 90%;
+    padding: 0.4rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-content: flex-start;
     ::-webkit-scrollbar {
       width: 5px;
       &-thumb {
@@ -100,28 +113,36 @@ const Container = styled.div`
       }
     }
     .contact {
-      background-color: #ffffff39;
-      min-height: 5rem;
-      width: 90%;
-      cursor: pointer;
-      padding: 0.4rem;
-      gap: 1rem;
-      display: flex;
-      align-items: center;
+      width: 100%;
       transition: 0.5s ease-in-out;
-    }
-    .avatar {
-      width: 50px;
-      height: 3rem;
-      border-radius: 50px;
-    }
-    .name {
-      color: white;
+      .users {
+        cursor: pointer;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        flex-direction: row;
+        background-color: #ffffff39;
+        padding: 10px;
+        .avatar {
+          width: 50px;
+          height: 3rem;
+          border-radius: 50px;
+        }
+        .name {
+          color: white;
+          margin-left: 6px;
+        }
+        .auto {
+          display: none;
+          opacity: 0;
+        }
+      }
     }
     .selected {
-      background-color: #9186f3;
-    }
+        background-color: #9186f3;
+      }
   }
+  //usuario logeado
   .current-user {
     display: flex;
     flex-wrap: wrap;
@@ -146,5 +167,4 @@ const Container = styled.div`
     }
   }
 `;
-
 export default Contacts;

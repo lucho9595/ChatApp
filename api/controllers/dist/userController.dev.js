@@ -1,8 +1,8 @@
 "use strict";
 
-var User = require('../model/user');
+var User = require("../model/user");
 
-var bcrypt = require('bcrypt');
+var bcrypt = require("bcrypt");
 
 module.exports.register = function _callee(req, res, next) {
   var _req$body, img, name, email, password, imgCheck, nameCheck, emailCheck, cryptPassword, user;
@@ -51,18 +51,16 @@ module.exports.register = function _callee(req, res, next) {
           }));
 
         case 12:
-          ; //Chequeamos que no exista el email
-
-          _context.next = 15;
+          _context.next = 14;
           return regeneratorRuntime.awrap(User.findOne({
             email: email
           }));
 
-        case 15:
+        case 14:
           emailCheck = _context.sent;
 
           if (!emailCheck) {
-            _context.next = 18;
+            _context.next = 17;
             break;
           }
 
@@ -71,15 +69,13 @@ module.exports.register = function _callee(req, res, next) {
             status: false
           }));
 
-        case 18:
-          ; //Aca realizamos la encriptacion del password:
-
-          _context.next = 21;
+        case 17:
+          _context.next = 19;
           return regeneratorRuntime.awrap(bcrypt.hash(password, 10));
 
-        case 21:
+        case 19:
           cryptPassword = _context.sent;
-          _context.next = 24;
+          _context.next = 22;
           return regeneratorRuntime.awrap(User.create({
             img: img,
             email: email,
@@ -87,7 +83,7 @@ module.exports.register = function _callee(req, res, next) {
             password: cryptPassword
           }));
 
-        case 24:
+        case 22:
           user = _context.sent;
           delete user.password;
           return _context.abrupt("return", res.json({
@@ -95,17 +91,17 @@ module.exports.register = function _callee(req, res, next) {
             user: user
           }));
 
-        case 29:
-          _context.prev = 29;
+        case 27:
+          _context.prev = 27;
           _context.t0 = _context["catch"](0);
           next("El error es aca en el register:", _context.t0);
 
-        case 32:
+        case 30:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[0, 29]]);
+  }, null, null, [[0, 27]]);
 };
 
 module.exports.login = function _callee2(req, res, next) {
@@ -137,16 +133,14 @@ module.exports.login = function _callee2(req, res, next) {
           }));
 
         case 7:
-          ; //Aca comparamos que el password que ingresamos es igual al que esta en la base de datos.
-
-          _context2.next = 10;
+          _context2.next = 9;
           return regeneratorRuntime.awrap(bcrypt.compare(password, user.password));
 
-        case 10:
+        case 9:
           isPasswordValid = _context2.sent;
 
           if (isPasswordValid) {
-            _context2.next = 13;
+            _context2.next = 12;
             break;
           }
 
@@ -155,29 +149,28 @@ module.exports.login = function _callee2(req, res, next) {
             status: false
           }));
 
-        case 13:
-          ;
+        case 12:
           delete user.password;
           return _context2.abrupt("return", res.json({
             status: true,
             user: user
           }));
 
-        case 18:
-          _context2.prev = 18;
+        case 16:
+          _context2.prev = 16;
           _context2.t0 = _context2["catch"](0);
           next("El error es aca en el login:", _context2.t0);
 
-        case 21:
+        case 19:
         case "end":
           return _context2.stop();
       }
     }
-  }, null, null, [[0, 18]]);
+  }, null, null, [[0, 16]]);
 };
 
 module.exports.getAllUsers = function _callee3(req, res, next) {
-  var user;
+  var users;
   return regeneratorRuntime.async(function _callee3$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
@@ -191,13 +184,13 @@ module.exports.getAllUsers = function _callee3(req, res, next) {
           }).select(["email", "name", "img", "id"]));
 
         case 3:
-          user = _context3.sent;
-          return _context3.abrupt("return", res.json(user));
+          users = _context3.sent;
+          return _context3.abrupt("return", res.json(users));
 
         case 7:
           _context3.prev = 7;
           _context3.t0 = _context3["catch"](0);
-          next("Aca esta el error:", _context3.t0);
+          next(_context3.t0);
 
         case 10:
         case "end":
