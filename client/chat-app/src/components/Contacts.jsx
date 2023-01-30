@@ -4,7 +4,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/logo.png";
-
 function Contacts({ contacts, currentUser, changeChat }) {
   //define el estado del nombree del usuario
   const [currentName, setCurrentName] = useState(undefined);
@@ -12,7 +11,6 @@ function Contacts({ contacts, currentUser, changeChat }) {
   const [currentImage, setCurrentImage] = useState(undefined);
   //cuando seleccionamos un chat nos desvuelve lo que tenga
   const [currentSelected, setCurrentSelected] = useState(undefined);
-
   useEffect(() => {
     if (currentUser) {
       setCurrentImage(currentUser.img);
@@ -74,7 +72,6 @@ function Contacts({ contacts, currentUser, changeChat }) {
     </>
   );
 }
-
 const Container = styled.div`
   display: grid;
   grid-template-rows: 10% 75% 15%;
@@ -99,14 +96,13 @@ const Container = styled.div`
   .contacts {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; 
+    align-items: flex-start;
     overflow: auto;
     gap: 0.8rem;
     min-height: 5rem;
     width: 90%;
     padding: 0.4rem;
     gap: 1rem;
-    transition: 0.5s ease-in-out;
     flex-wrap: wrap;
     align-content: flex-start;
     ::-webkit-scrollbar {
@@ -117,16 +113,17 @@ const Container = styled.div`
         border-radius: 10px;
       }
     }
-    .contact{
+    .contact {
       width: 100%;
-    .users{
-      cursor: pointer;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      flex-direction: row;
-      background-color: #ffffff39;
-      padding: 10px;
+      transition: 0.5s ease-in-out;
+      .users {
+        cursor: pointer;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        flex-direction: row;
+        background-color: #ffffff39;
+        padding: 10px;
         .avatar {
           width: 50px;
           height: 3rem;
@@ -136,16 +133,16 @@ const Container = styled.div`
           color: white;
           margin-left: 6px;
         }
-        .selected {
-          background-color: #9186f3;
-        }
-        .auto{
+        .auto {
           display: none;
           opacity: 0;
         }
+      }
     }
+    .selected {
+        background-color: #9186f3;
+      }
   }
-}
   //usuario logeado
   .current-user {
     display: flex;
@@ -171,5 +168,4 @@ const Container = styled.div`
     }
   }
 `;
-
 export default Contacts;
