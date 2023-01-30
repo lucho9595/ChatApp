@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
@@ -19,9 +21,10 @@ function Contacts({ contacts, currentUser, changeChat }) {
   }, [currentUser]);
 
   const changeCurrentChat = (index, contact) => {
-    setCurrentSelected(index);
+    setCurrentSelected(index[1]);
     changeChat(contact);
   };
+
 
   return (
     <>
@@ -35,18 +38,24 @@ function Contacts({ contacts, currentUser, changeChat }) {
             {contacts?.map((contact, index) => {
               return (
                 <div
-                  className={`contact ${
-                    index === currentSelected ? "selected" : ""
-                  }`}
+                  className={`contact ${index === currentSelected ? "selected" : ""
+                    }`}
                   key={index}
                   onClick={() => changeCurrentChat(index, contact)}
                 >
-                  <div className="avatar">
-                    <img className="avatar" src={contact.img} alt="imagen" />
-                  </div>
-                  <div className="name">
-                    <h4>{contact.name}</h4>
-                  </div>
+                  {
+                    contact.img === currentUser.img && contact.name === currentUser.name ?
+                      <div class="auto" id="auto">
+                      </div> :
+                      <div className="users">
+                        <div className="avatar">
+                          <img className="avatar" src={contact.img} />
+                        </div>
+                        <div className="name">
+                          <h4>{contact.name}</h4>
+                        </div>
+                      </div>
+                  }
                 </div>
               );
             })}
@@ -60,7 +69,8 @@ function Contacts({ contacts, currentUser, changeChat }) {
             </div>
           </div>
         </Container>
-      )}
+      )
+      }
     </>
   );
 }
@@ -73,7 +83,7 @@ const Container = styled.div`
   .title {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     align-content: center;
     align-items: center;
     h1 {
@@ -85,12 +95,20 @@ const Container = styled.div`
       width: 35px;
     }
   }
+  //todos los contactos
   .contacts {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start; 
     overflow: auto;
     gap: 0.8rem;
+    min-height: 5rem;
+    width: 90%;
+    padding: 0.4rem;
+    gap: 1rem;
+    transition: 0.5s ease-in-out;
+    flex-wrap: wrap;
+    align-content: flex-start;
     ::-webkit-scrollbar {
       width: 5px;
       &-thumb {
@@ -99,29 +117,36 @@ const Container = styled.div`
         border-radius: 10px;
       }
     }
-    .contact {
-      background-color: #ffffff39;
-      min-height: 5rem;
-      width: 90%;
+    .contact{
+      width: 100%;
+    .users{
       cursor: pointer;
-      padding: 0.4rem;
-      gap: 1rem;
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      transition: 0.5s ease-in-out;
-    }
-    .avatar {
-      width: 50px;
-      height: 3rem;
-      border-radius: 50px;
-    }
-    .name {
-      color: white;
-    }
-    .selected {
-      background-color: #9186f3;
+      flex-direction: row;
+      background-color: #ffffff39;
+      padding: 10px;
+        .avatar {
+          width: 50px;
+          height: 3rem;
+          border-radius: 50px;
+        }
+        .name {
+          color: white;
+          margin-left: 6px;
+        }
+        .selected {
+          background-color: #9186f3;
+        }
+        .auto{
+          display: none;
+          opacity: 0;
+        }
     }
   }
+}
+  //usuario logeado
   .current-user {
     display: flex;
     flex-wrap: wrap;

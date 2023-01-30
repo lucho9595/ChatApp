@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { allUsers } from "../utils/APIroutes";
 import Contacts from "../components/Contacts";
+import Welcome from "../components/Welcome";
 
 function Chat() {
   const navigate = useNavigate();
@@ -12,19 +13,18 @@ function Chat() {
   const [currentChat, setCurrentChat] = useState(undefined);
 
   useEffect(() => {
-    if (localStorage.getItem("chat-app-user") === null) {
+    if (!localStorage.getItem("chat-app-user")) {
       navigate("/login");
     } else {
       setCurrentUser(JSON.parse(localStorage.getItem("chat-app-user")));
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     const exist = async () => {
       if (currentUser) {
         if (currentUser.img) {
           const data = await axios.get(`${allUsers}/${currentUser.id}`);
-          console.log(data);
           setContacts(data.data);
         }
       }
@@ -40,6 +40,7 @@ function Chat() {
     <Container>
       <div className="container">
         <Contacts contacts={contacts} currentUser={currentUser} changeChat={handleChatChange}/>
+        <Welcome currentUser={currentUser}/>
       </div>
     </Container>
   );
