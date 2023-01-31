@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import Logout from "./Logout";
 
 export default function ChatContainer({ currentChat }) {
   return (
     <>
-      { currentChat && (
+      {currentChat && (
         <Container>
           <div className="header">
             <div className="user-detail">
@@ -15,14 +16,42 @@ export default function ChatContainer({ currentChat }) {
                 <h3>{currentChat.name}</h3>
               </div>
             </div>
+            <Logout />
+          </div>
+          <div className="message">
+          </div>
+          <div className="chat-input">
+            <input type="text" />
+            <button>Send</button>
           </div>
         </Container>
-        )
+      )
       }
     </>
   );
 }
 
 const Container = styled.div`
-  background-color: red;
+  padding-top: 10px;
+  .header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.2rem;
+    .user-detail{
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      .img{
+        img{
+          height: 3rem;
+        }
+      }
+      .name{
+        h3{
+          color: white; 
+        }
+      }
+    }
+  }
 `;

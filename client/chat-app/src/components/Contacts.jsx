@@ -19,10 +19,9 @@ function Contacts({ contacts, currentUser, changeChat }) {
   }, [currentUser]);
 
   const changeCurrentChat = (index, contact) => {
-    setCurrentSelected(index[1]);
+    setCurrentSelected(index);
     changeChat(contact);
   };
-
 
   return (
     <>
@@ -72,6 +71,7 @@ function Contacts({ contacts, currentUser, changeChat }) {
     </>
   );
 }
+
 const Container = styled.div`
   display: grid;
   grid-template-rows: 10% 75% 15%;
@@ -168,4 +168,5 @@ const Container = styled.div`
     }
   }
 `;
+
 export default Contacts;
