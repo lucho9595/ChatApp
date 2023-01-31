@@ -28,8 +28,8 @@ function Contacts({ contacts, currentUser, changeChat }) {
   };
 
   const handleClick = async () => {
-    navigate('/editUser');
-}
+    navigate("/editUser");
+  };
 
   return (
     <>
@@ -43,24 +43,25 @@ function Contacts({ contacts, currentUser, changeChat }) {
             {contacts?.map((contact, index) => {
               return (
                 <div
-                  className={`contact ${index === currentSelected ? "selected" : ""
-                    }`}
+                  className={`contact ${
+                    index === currentSelected ? "selected" : ""
+                  }`}
                   key={index}
                   onClick={() => changeCurrentChat(index, contact)}
                 >
-                  {
-                    contact.img === currentUser.img && contact.name === currentUser.name ?
-                      <div class="auto" id="auto">
-                      </div> :
-                      <div className="users">
-                        <div className="avatar">
-                          <img className="avatar" src={contact.img} />
-                        </div>
-                        <div className="name">
-                          <h4>{contact.name}</h4>
-                        </div>
+                  {contact.img === currentUser.img &&
+                  contact.name === currentUser.name ? (
+                    <div class="auto" id="auto"></div>
+                  ) : (
+                    <div className="users">
+                      <div className="avatar">
+                        <img className="avatar" src={contact.img} />
                       </div>
-                  }
+                      <div className="name">
+                        <h4>{contact.name}</h4>
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -77,8 +78,7 @@ function Contacts({ contacts, currentUser, changeChat }) {
             </button>
           </div>
         </Container>
-      )
-      }
+      )}
     </>
   );
 }
@@ -171,13 +171,28 @@ const Container = styled.div`
     .name {
       color: white;
     }
+    button{
+      border: none;
+      background-color: #9186f3;
+      padding: 6px;
+    border-radius: 5px;
+      svg{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        font-size: 19px;
+        color: #ebe7ff;
+        }
+      }
+    }
     @media screen and (min-width: 720px) and (max-width: 1080px) {
       gap: 0.5rem;
       .name {
         font-size: 1rem;
       }
     }
-  }
 `;
 
 export default Contacts;
