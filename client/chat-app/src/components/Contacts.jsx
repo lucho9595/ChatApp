@@ -2,8 +2,10 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../assets/logo.png";
+import { BiCog } from "react-icons/bi";
 function Contacts({ contacts, currentUser, changeChat }) {
   //define el estado del nombree del usuario
   const [currentName, setCurrentName] = useState(undefined);
@@ -11,6 +13,8 @@ function Contacts({ contacts, currentUser, changeChat }) {
   const [currentImage, setCurrentImage] = useState(undefined);
   //cuando seleccionamos un chat nos desvuelve lo que tenga
   const [currentSelected, setCurrentSelected] = useState(undefined);
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (currentUser) {
       setCurrentImage(currentUser.img);
@@ -22,6 +26,10 @@ function Contacts({ contacts, currentUser, changeChat }) {
     setCurrentSelected(index);
     changeChat(contact);
   };
+
+  const handleClick = async () => {
+    navigate('/editUser');
+}
 
   return (
     <>
@@ -64,6 +72,9 @@ function Contacts({ contacts, currentUser, changeChat }) {
             <div className="name">
               <h3>{currentName}</h3>
             </div>
+            <button onClick={handleClick}>
+              <BiCog />
+            </button>
           </div>
         </Container>
       )

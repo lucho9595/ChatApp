@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Chat from "./pages/Chat";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import EditUser from "./pages/EditUser";
 
 export default function App(){
   return (
@@ -10,6 +11,7 @@ export default function App(){
       <Routes>
         <Route path="/register" element={<Register />}/>
         <Route path="/login" element={<Login />}/>
+        <Route path="/editUser" element={<EditUser />}/>
         <Route path="/" element={<Chat />}/>
       </Routes>
     </BrowserRouter>
