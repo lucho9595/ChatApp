@@ -26,6 +26,10 @@ function EditUser() {
     }
   }, [navigate]);
 
+  function capitalizarPrimeraLetra({ settingUser }) {
+    return settingUser?.name.charAt(0).toUpperCase() + setSettingUser?.name.slice(1);
+  }
+
   return (
     <>
       <Title>
@@ -40,7 +44,7 @@ function EditUser() {
               <div className="user-avatar">
                 <img src={settingUser?.img} alt="user" />
               </div>
-              <h5 className="user-name">{settingUser?.name}</h5>
+              <h5 className="user-name">{capitalizarPrimeraLetra}</h5>
               <h6 className="user-email">{settingUser?.email}</h6>
             </div>
             <div className="exit">
