@@ -179,7 +179,7 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     align-content: center;
-    padding: 83px;
+    padding: 100px;
   }
 
   .card2 {
@@ -194,7 +194,7 @@ const Container = styled.div`
     flex-direction: column;
     justify-content: center;
     align-content: center;
-    padding: 75px;
+    padding: 61px;
     margin-left: 70px;
     .title2 {
       font-size: 25px;
@@ -205,21 +205,37 @@ const Container = styled.div`
   .image {
     display: flex;
     flex-direction: column;
+    padding-top: 5px;
+    input{
+        padding: 5px 6px;
+    }
   }
 
   .name {
     display: flex;
     flex-direction: column;
+    padding-top: 5px;
+    input{
+        padding: 5px 6px;
+    }
   }
 
   .email {
     display: flex;
     flex-direction: column;
+    padding-top: 5px;
+    input{
+        padding: 5px 6px;
+    }
   }
 
   .password {
     display: flex;
     flex-direction: column;
+    padding-top: 5px;
+    input{
+        padding: 5px 6px;
+    }
   }
 
   .buttons {
