@@ -44,7 +44,7 @@ function EditUser() {
               <h6 className="user-email">{settingUser?.email}</h6>
             </div>
             <div className="exit">
-              <h5>Cerrar Session</h5>
+              <h5>Sign off</h5>
               <Button onClick={handleClick}>
                 <BiLogOut />
               </Button>
@@ -236,14 +236,28 @@ const Container = styled.div`
       padding: 0.5rem;
       border-radius: 5px;
       margin-right: 5px;
-      background-color: #9186f3;
+      background-color: #d62828;
       cursor: pointer;
       border: none;
       font-size: 16px;
-      color: #ebe7ff;
+      color: white;
       transition: 0.5s ease-in-out;
+      box-shadow: rgba(229, 7, 8, 0.2) 0 -25px 18px -14px inset,
+        rgba(229, 7, 8, 0.15) 0 1px 2px, rgba(229, 7, 8, 0.15) 0 2px 4px,
+        rgba(229, 7, 8, 0.15) 0 4px 8px, rgba(229, 7, 8, 0.15) 0 8px 16px,
+        rgba(229, 7, 8, 0.15) 0 16px 32px;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto,
+        sans-serif;
       :hover {
-        background-color: red;
+        background-color: #d62828;
+        box-shadow: rgba(229, 7, 8, 0.35) 0 -25px 18px -14px inset,
+          rgba(229, 7, 8, 0.25) 0 1px 2px, rgba(229, 7, 8, 0.25) 0 2px 4px,
+          rgba(229, 7, 8, 0.25) 0 4px 8px, rgba(229, 7, 8, 0.25) 0 8px 16px,
+          rgba(229, 7, 8, 0.25) 0 16px 32px;
+        transform: scale(1.05) rotate(-1deg);
       }
     }
     .update {
@@ -253,14 +267,28 @@ const Container = styled.div`
       padding: 0.5rem;
       border-radius: 5px;
       margin-right: 5px;
-      background-color: #9186f3;
+      background-color: #c2fbd7;
       cursor: pointer;
       border: none;
       font-size: 16px;
-      color: #ebe7ff;
+      color: white;
       transition: 0.5s ease-in-out;
+      box-shadow: rgba(44, 187, 99, 0.2) 0 -25px 18px -14px inset,
+        rgba(44, 187, 99, 0.15) 0 1px 2px, rgba(44, 187, 99, 0.15) 0 2px 4px,
+        rgba(44, 187, 99, 0.15) 0 4px 8px, rgba(44, 187, 99, 0.15) 0 8px 16px,
+        rgba(44, 187, 99, 0.15) 0 16px 32px;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto,
+        sans-serif;
       :hover {
-        background-color: green;
+        background-color: #c2fbd7;
+        box-shadow: rgba(44, 187, 99, 0.35) 0 -25px 18px -14px inset,
+          rgba(44, 187, 99, 0.25) 0 1px 2px, rgba(44, 187, 99, 0.25) 0 2px 4px,
+          rgba(44, 187, 99, 0.25) 0 4px 8px, rgba(44, 187, 99, 0.25) 0 8px 16px,
+          rgba(44, 187, 99, 0.25) 0 16px 32px;
+        transform: scale(1.05) rotate(-1deg);
       }
     }
   }
@@ -279,17 +307,28 @@ const Button = styled.button`
   padding: 0.5rem;
   border-radius: 5px;
   margin-right: 5px;
-  background-color: #9186f3;
+  background-color: #d62828;
   cursor: pointer;
   border: none;
   transition: 0.5s ease-in-out;
+  box-shadow: rgba(229, 7, 8,  0.2) 0 -25px 18px -14px inset,
+        rgba(229, 7, 8, 0.15) 0 1px 2px, rgba(229, 7, 8, 0.15) 0 2px 4px,
+        rgba(229, 7, 8, 0.15) 0 4px 8px, rgba(229, 7, 8, 0.15) 0 8px 16px,
+        rgba(229, 7, 8, 0.15) 0 16px 32px;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto;
   :hover {
-    background-color: red;
+    background-color: #d62828;
+    box-shadow: rgba(229, 7, 8, 0.35) 0 -25px 18px -14px inset, rgba(229, 7, 8, 0.25) 0 1px 2px, rgba(229, 7, 8, 0.25) 0 2px 4px, rgba(229, 7, 8, 0.25) 0 4px 8px, rgba(229, 7, 8, 0.25) 0 8px 16px, rgba(229, 7, 8, 0.25) 0 16px 32px;
+    transform: scale(1.05) rotate(-1deg);
   }
   svg {
     font-size: 25px;
-    color: #ebe7ff;
+    color: white;
   }
+
 `;
 
 export default EditUser;
