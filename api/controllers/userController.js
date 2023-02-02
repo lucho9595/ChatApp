@@ -1,58 +1,9 @@
 const User = require("../model/user");
 const bcrypt = require("bcrypt");
 
-module.exports.register = async (req, res, next) => {
-  try {
-    const { img, name, email, password } = req.body;
-    const imgCheck = await User.findOne({
-      img
-    });
-    if (imgCheck) {
-      return res.json({
-        msg: "img already used",
-        status: false
-      });
-    }
-    //Chequeamos que no exista el nombre
-    const nameCheck = await User.findOne({
-      name
-    });
-    if (nameCheck) {
-      return res.json({
-        msg: "Name already used",
-        status: false
-      });
-    }
-    //Chequeamos que no exista el email
-    const emailCheck = await User.findOne({
-      email
-    });
-    if (emailCheck) {
-      return res.json({
-        msg: "Email already used",
-        status: false
-      });
-    }
-    //Aca realizamos la encriptacion del password:
-    const cryptPassword = await bcrypt.hash(password, 10);
-    //creamos el usuario
-    const user = await User.create({
-      img,
-      email,
-      name,
-      password: cryptPassword
-    });
-    delete user.password;
-    return res.json({
-      status: true,
-      user
-    });
-  } catch (err) {
-    next("El error es aca en el register:", err);
-  }
-};
 
-module.exports.login = async (req, res, next) => {
+
+async function login(req, res, next){
   try {
     const { name, password } = req.body;
     //Chequeamos si existe el nombre
@@ -74,6 +25,7 @@ module.exports.login = async (req, res, next) => {
       });
     }
     delete user.password;
+    console.log(user)
     return res.json({
       status: true,
       user
@@ -83,16 +35,66 @@ module.exports.login = async (req, res, next) => {
   }
 };
 
-module.exports.getAllUsers = async (req, res, next) => {
+async function getAllUsers(req, res, next){
   try {
     const users = await User.find({ id: { $ne: req.params.id } }).select([
       "email",
       "name",
       "img",
-      "id",
+      "id"
     ]);
+    console.log(users)
     return res.json(users);
   } catch (error) {
     next(error);
   }
 };
+
+async function upDateUser(req, res, next){
+  try {
+    const { id } = req.params;
+    const { name, email, password, img, imgId } = req.body;
+  
+    if (!id) res.status(404).json({ msg: 'id is require...' });
+
+		let user = await User.findOne({ where: { id: id } });
+		if (!user) res.status(404).json({ msg: 'user not found...' });
+
+		if (username) await User.update({ name }, { where: { id: id } });
+		if (email) await User.update({ email }, { where: { id: id } });
+		if (password) {
+			let newPassword = await encrypt(password)
+			await User.update({ password: newPassword }, { where: { id: id } });
+		}
+
+    if (img) {
+      if (user.img) {
+        await deleteImage(user.imgId);
+        await User.update({
+          img,
+          imgId
+        },
+          { where: { id: id } });
+      } else {
+        await User.update({
+          img,
+          imgId
+        },
+          { where: { id: id } });
+      }
+    }
+  
+    let nuevoUser = await User.findOne({ where: { id: id } });
+    console.log(nuevoUser)
+		res.status(200).json(nuevoUser);
+
+  } catch (error) {
+    next("El error es en upDateUser ," + error)
+  }
+};
+
+module.exports = {
+  upDateUser,
+  login,
+  getAllUsers
+}

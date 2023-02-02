@@ -24,3 +24,5 @@ mongoose.connect(process.env.MONGO_URL, { keepAlive: true, useNewUrlParser: true
 const server = app.listen(process.env.PORT, () =>{
     console.log(`Server Started on Port ${process.env.PORT}`)
 })
+
+module.exports = server;

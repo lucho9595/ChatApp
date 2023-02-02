@@ -9,7 +9,7 @@ export default function ChatContainer({ currentChat }) {
           <div className="header">
             <div className="user-detail">
               <div className="img">
-                <img src={currentChat.img} alt="logo usuario" />
+                <img src={currentChat.img} alt="avatar" />
               </div>
               <div className="name">
                 <h3>{currentChat.name}</h3>

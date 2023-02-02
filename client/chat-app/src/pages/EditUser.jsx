@@ -1,13 +1,27 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
 
 function EditUser() {
   const [settingUser, setSettingUser] = useState(undefined);
-
+  const [datos, setDatos] = useState({
+    img: "",
+    imgId: "",
+    name: "",
+    email: "",
+    password: ""
+  });
   const navigate = useNavigate();
+
+
+  function handleChange(e) {
+    setDatos({
+      ...datos,
+      [e.target.name]: e.target.value
+    });
+  }
+  console.log(datos);
 
   const handleClick = async () => {
     localStorage.clear();
@@ -26,10 +40,6 @@ function EditUser() {
     }
   }, [navigate]);
 
-  function capitalizarPrimeraLetra({ settingUser }) {
-    return settingUser?.name.charAt(0).toUpperCase() + setSettingUser?.name.slice(1);
-  }
-
   return (
     <>
       <Title>
@@ -44,35 +54,42 @@ function EditUser() {
               <div className="user-avatar">
                 <img src={settingUser?.img} alt="user" />
               </div>
-              <h5 className="user-name">{capitalizarPrimeraLetra}</h5>
+              <h5 className="user-name">
+                {settingUser?.name.slice(0, 1).toUpperCase() +
+                  settingUser?.name.slice(1)}
+              </h5>
               <h6 className="user-email">{settingUser?.email}</h6>
             </div>
             <div className="exit">
-              <h5>Sign off</h5>
+              <h5>Log Out</h5>
               <Button onClick={handleClick}>
                 <BiLogOut />
               </Button>
             </div>
           </div>
         </div>
-        <div class="card2">
+        <form class="card2">
           <h6 className="title2">Personal Details</h6>
           <div className="image">
             <label for="img">Changed Image</label>
             <input
               type="file"
               className="form-control"
+              name="img"
               id="image"
               placeholder="Select Picture"
+              onChange={(e) => handleChange(e)}
             />
           </div>
           <div className="name">
-            <label for="fullName">Name</label>
+            <label for="name">Name</label>
             <input
               type="text"
               className="form-control"
-              id="fullName"
+              name="name"
+              id="name"
               placeholder="Enter Name"
+              onChange={(e) => handleChange(e)}
             />
           </div>
           <div className="email">
@@ -80,8 +97,10 @@ function EditUser() {
             <input
               type="Email"
               className="form-control"
+              name="email"
               id="Email"
               placeholder="Enter Email"
+              onChange={(e) => handleChange(e)}
             />
           </div>
           <div className="password">
@@ -89,25 +108,21 @@ function EditUser() {
             <input
               type="password"
               className="form-control"
+              name="password"
               id="password"
               placeholder="Enter password"
+              onChange={(e) => handleChange(e)}
             />
           </div>
           <div className="buttons">
-            <button
-              type="button"
-              id="submit"
-              name="submit"
-              className="cancel"
-              onClick={handleReturn}
-            >
+            <button className="cancel" onClick={handleReturn}>
               Cancel
             </button>
-            <button type="button" id="submit" name="submit" className="update">
+            <button type="submit" id="submit" name="submit" className="update">
               Update
             </button>
           </div>
-        </div>
+        </form>
       </Container>
     </>
   );
@@ -210,8 +225,14 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     padding-top: 5px;
-    input{
-        padding: 5px 6px;
+    input {
+      padding: 5px 6px;
+      margin: 10px 0;
+      box-shadow: 0 0 15px 4px #121212;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: white;
     }
   }
 
@@ -219,8 +240,14 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     padding-top: 5px;
-    input{
-        padding: 5px 6px;
+    input {
+      padding: 5px 6px;
+      margin: 10px 0;
+      box-shadow: 0 0 15px 4px #121212;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: white;
     }
   }
 
@@ -228,8 +255,14 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     padding-top: 5px;
-    input{
-        padding: 5px 6px;
+    input {
+      padding: 5px 6px;
+      margin: 10px 0;
+      box-shadow: 0 0 15px 4px #121212;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: white;
     }
   }
 
@@ -237,8 +270,14 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     padding-top: 5px;
-    input{
-        padding: 5px 6px;
+    input {
+      padding: 5px 6px;
+      margin: 10px 0;
+      box-shadow: 0 0 15px 4px #121212;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: white;
     }
   }
 
@@ -269,8 +308,6 @@ const Container = styled.div`
       user-select: none;
       -webkit-user-select: none;
       touch-action: manipulation;
-      font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto,
-        sans-serif;
       :hover {
         background-color: #d62828;
         box-shadow: rgba(229, 7, 8, 0.35) 0 -25px 18px -14px inset,
@@ -291,7 +328,7 @@ const Container = styled.div`
       cursor: pointer;
       border: none;
       font-size: 16px;
-      color: white;
+      color: green;
       transition: 0.5s ease-in-out;
       box-shadow: rgba(44, 187, 99, 0.2) 0 -25px 18px -14px inset,
         rgba(44, 187, 99, 0.15) 0 1px 2px, rgba(44, 187, 99, 0.15) 0 2px 4px,
@@ -300,8 +337,6 @@ const Container = styled.div`
       user-select: none;
       -webkit-user-select: none;
       touch-action: manipulation;
-      font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto,
-        sans-serif;
       :hover {
         background-color: #c2fbd7;
         box-shadow: rgba(44, 187, 99, 0.35) 0 -25px 18px -14px inset,
@@ -331,24 +366,25 @@ const Button = styled.button`
   cursor: pointer;
   border: none;
   transition: 0.5s ease-in-out;
-  box-shadow: rgba(229, 7, 8,  0.2) 0 -25px 18px -14px inset,
-        rgba(229, 7, 8, 0.15) 0 1px 2px, rgba(229, 7, 8, 0.15) 0 2px 4px,
-        rgba(229, 7, 8, 0.15) 0 4px 8px, rgba(229, 7, 8, 0.15) 0 8px 16px,
-        rgba(229, 7, 8, 0.15) 0 16px 32px;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
-      font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto;
+  box-shadow: rgba(229, 7, 8, 0.2) 0 -25px 18px -14px inset,
+    rgba(229, 7, 8, 0.15) 0 1px 2px, rgba(229, 7, 8, 0.15) 0 2px 4px,
+    rgba(229, 7, 8, 0.15) 0 4px 8px, rgba(229, 7, 8, 0.15) 0 8px 16px,
+    rgba(229, 7, 8, 0.15) 0 16px 32px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
   :hover {
     background-color: #d62828;
-    box-shadow: rgba(229, 7, 8, 0.35) 0 -25px 18px -14px inset, rgba(229, 7, 8, 0.25) 0 1px 2px, rgba(229, 7, 8, 0.25) 0 2px 4px, rgba(229, 7, 8, 0.25) 0 4px 8px, rgba(229, 7, 8, 0.25) 0 8px 16px, rgba(229, 7, 8, 0.25) 0 16px 32px;
+    box-shadow: rgba(229, 7, 8, 0.35) 0 -25px 18px -14px inset,
+      rgba(229, 7, 8, 0.25) 0 1px 2px, rgba(229, 7, 8, 0.25) 0 2px 4px,
+      rgba(229, 7, 8, 0.25) 0 4px 8px, rgba(229, 7, 8, 0.25) 0 8px 16px,
+      rgba(229, 7, 8, 0.25) 0 16px 32px;
     transform: scale(1.05) rotate(-1deg);
   }
   svg {
     font-size: 25px;
     color: white;
   }
-
 `;
 
 export default EditUser;
