@@ -61,10 +61,10 @@ async function login(req, res, next) {
 }
 
 //busco uno por id
-async function getAllUser(req, res, next) {
+async function getUser(req, res, next) {
   try {
-    const {id} = req.params.id
-    const users = await User.findOne({ id }).select([
+    const users = await User.findById(req.params.id).select([
+      "password",
       "email",
       "name",
       "img",
@@ -82,6 +82,7 @@ async function getAllUser(req, res, next) {
 async function getAllUsers(req, res, next) {
   try {
     const users = await User.find({ id: req.params.id }).select([
+      "password",
       "email",
       "name",
       "img",
@@ -95,42 +96,45 @@ async function getAllUsers(req, res, next) {
 }
 
 //actualizo el usuario
-async function upDateUser(req, res, next) {
+async function updateUser(req, res, next) {
   try {
-    const {id, name, email, password, img, imgId } = req.body;
-
-    let user = await User.findOne({ where: { id: id } });
-    if (!user) res.status(404).json({ msg: "user not found..." });
-
-    if (name) await User.update({ name }, { where: { id: id } });
-    if (email) await User.update({ email }, { where: { id: id } });
-    if (password) {
-    const newCryptPassword = await bcrypt.hash(password, 10);
-      await User.update({ password: newCryptPassword }, { where: { id: id } });
-    }
-
-    if (img){
-        await User.update(
-          {
-            img,
-            imgId
-          },
-          { where: { id: id } })}
-    let nuevoUser = await User.findOne({ where: { id: id } });
-    console.log(nuevoUser);
-    res.status(200).json(nuevoUser);
+    const { name, password, email, img} = req.body;
+    const updateUser = await User.findOneAndUpdate({_id: req.params.id},{
+      name,
+      email,
+      password,
+      img
+    }); 
+    console.log(req.body)
+    console.log(req.params.id)
+    res.status(200).json({msg: 'Updating user', updateUser});
   }catch (error) {
     next(error);
   }
 }
 
 //borro el usuario
-
+async function deleteUser(req, res, next){
+  try{
+    const deleteUser = await User.findByIdAndDelete(req.params.id).select([
+      "name",
+      "password",
+      "email",
+      "img",
+      "id"
+    ])
+    res.json({msg: 'User deleted ', deleteUser})
+  
+  }catch(error) {
+    next({msg: "En deleteUser esta el error:" , error})
+  }
+}
 
 module.exports = {
   register,
-  upDateUser,
+  updateUser,
   login,
   getAllUsers,
-  getAllUser
+  getUser,
+  deleteUser
 };
