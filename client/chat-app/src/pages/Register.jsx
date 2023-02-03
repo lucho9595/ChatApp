@@ -68,7 +68,6 @@ const handleValidation = () =>{
     return true;
 };
 
-//damos un sweetAlert a la creacion del User
 const handleSubmit = async (event) =>{
     event.preventDefault();
     if(handleValidation()){

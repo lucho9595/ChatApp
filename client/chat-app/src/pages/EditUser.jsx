@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
+import { upDateUser } from "../utils/APIroutes";
+import axios from "axios";
 
 function EditUser() {
   const [settingUser, setSettingUser] = useState(undefined);
-  const [datos, setDatos] = useState({
+  const [date, setDate] = useState({
     img: "",
     imgId: "",
     name: "",
@@ -14,23 +16,57 @@ function EditUser() {
   });
   const navigate = useNavigate();
 
+  console.log(settingUser?._id);
 
   function handleChange(e) {
-    setDatos({
-      ...datos,
+    setDate({
+      ...date,
       [e.target.name]: e.target.value
     });
   }
-  console.log(datos);
+  console.log(date);
 
+  //button log out:
   const handleClick = async () => {
     localStorage.clear();
     navigate("/login");
   };
 
+  //button cancel:
   const handleReturn = () => {
     navigate("/");
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { name, email, password, img, imgId } = date;
+    const { data } = await axios.put(upDateUser, {
+      img,
+      imgId,
+      name,
+      email,
+      password
+    });
+    if (data.status === true) {
+      localStorage.setItem("chat-app-user", JSON.stringify(data.user));
+      navigate("/");
+    }
+  };
+
+  const uploadImage = (files) =>{
+    const formData = new FormData()
+    formData.append("file", files[0])
+    formData.append("upload_preset", "gwdcxzmg")
+    axios.post("https://api.cloudinary.com/v1_1/datkl6kft/image/upload", formData)
+    .then((res) => {
+        console.log(res)
+        setDate({
+            ...date,
+            img: res.data.secure_url,
+            imgId: res.data.public_id,
+        })
+    })
+}
 
   useEffect(() => {
     if (!localStorage.getItem("chat-app-user")) {
@@ -68,7 +104,7 @@ function EditUser() {
             </div>
           </div>
         </div>
-        <form class="card2">
+        <form class="card2" onSubmit={(event) => handleSubmit(event)}>
           <h6 className="title2">Personal Details</h6>
           <div className="image">
             <label for="img">Changed Image</label>
@@ -78,7 +114,7 @@ function EditUser() {
               name="img"
               id="image"
               placeholder="Select Picture"
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => uploadImage(e.target.files)}
             />
           </div>
           <div className="name">

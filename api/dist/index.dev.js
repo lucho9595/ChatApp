@@ -1,33 +1,28 @@
 "use strict";
 
-var express = require("express");
+var app = require("./app"); //con esto decimos que directamente corra el codigo echo en database.js
 
-var cors = require("cors");
 
-var mongoose = require("mongoose");
+require('./database'); //hago que el servidor escuche al puerto tipeado en .env
 
-var userRoutes = require("./routes/userRoute");
 
-var app = express();
+function run() {
+  return regeneratorRuntime.async(function run$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          _context.next = 2;
+          return regeneratorRuntime.awrap(app.listen(app.get('port')));
 
-require("dotenv").config();
+        case 2:
+          console.log("Server Started on Port ", app.get('port'));
 
-app.use(cors());
-app.use(express.json()); //aca decimos que  utilize las rutas de userRoute
+        case 3:
+        case "end":
+          return _context.stop();
+      }
+    }
+  });
+}
 
-app.use('/api/auth', userRoutes);
-mongoose.set("strictQuery", false);
-mongoose.connect(process.env.MONGO_URL, {
-  keepAlive: true,
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(function () {
-  console.log("Connected to MongoDB" + " alfin");
-})["catch"](function (err) {
-  console.log("Not Connected to Database ERROR! ", err);
-}); //hago que el servidor escuche al puerto tipeado en .env
-
-var server = app.listen(process.env.PORT, function () {
-  console.log("Server Started on Port ".concat(process.env.PORT));
-});
-module.exports = server;
+run();

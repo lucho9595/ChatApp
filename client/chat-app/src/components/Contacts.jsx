@@ -2,10 +2,10 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../assets/logo.png";
 import { BiCog } from "react-icons/bi";
+import { Link } from "react-router-dom";
 function Contacts({ contacts, currentUser, changeChat }) {
   //define el estado del nombree del usuario
   const [currentName, setCurrentName] = useState(undefined);
@@ -13,7 +13,6 @@ function Contacts({ contacts, currentUser, changeChat }) {
   const [currentImage, setCurrentImage] = useState(undefined);
   //cuando seleccionamos un chat nos desvuelve lo que tenga
   const [currentSelected, setCurrentSelected] = useState(undefined);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (currentUser) {
@@ -25,10 +24,6 @@ function Contacts({ contacts, currentUser, changeChat }) {
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);
     changeChat(contact);
-  };
-
-  const handleClick = async () => {
-    navigate("/editUser");
   };
 
   return (
@@ -73,9 +68,11 @@ function Contacts({ contacts, currentUser, changeChat }) {
             <div className="name">
               <h3>{currentName}</h3>
             </div>
-            <button onClick={handleClick}>
-              <BiCog />
-            </button>
+            <Link to={"/editUser/" + currentUser._id}>
+              <button>
+                <BiCog />
+              </button>
+            </Link>
           </div>
         </Container>
       )}
@@ -151,8 +148,8 @@ const Container = styled.div`
       }
     }
     .selected {
-        background-color: #9186f3;
-      }
+      background-color: #9186f3;
+    }
   }
   //usuario logeado
   .current-user {
@@ -171,12 +168,12 @@ const Container = styled.div`
     .name {
       color: white;
     }
-    button{
+    button {
       border: none;
       background-color: #9186f3;
       padding: 6px;
-    border-radius: 5px;
-      svg{
+      border-radius: 5px;
+      svg {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
@@ -184,15 +181,15 @@ const Container = styled.div`
         cursor: pointer;
         font-size: 19px;
         color: #ebe7ff;
-        }
       }
     }
-    @media screen and (min-width: 720px) and (max-width: 1080px) {
-      gap: 0.5rem;
-      .name {
-        font-size: 1rem;
-      }
+  }
+  @media screen and (min-width: 720px) and (max-width: 1080px) {
+    gap: 0.5rem;
+    .name {
+      font-size: 1rem;
     }
+  }
 `;
 
 export default Contacts;

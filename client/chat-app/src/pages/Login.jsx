@@ -38,7 +38,6 @@ useEffect(() =>{
     }
 }, [])
 
-console.log(localStorage.getItem('chat-app-user'))
 // eslint-disable-next-line no-unused-vars
 const handleValidation = () =>{
     const {name, password} = input;
