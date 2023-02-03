@@ -28,7 +28,5 @@ var userSchema = new mongoose.Schema({
   imgId: {
     type: String
   }
-}, {
-  timestamps: false
 });
 module.exports = mongoose.model("Users", userSchema);

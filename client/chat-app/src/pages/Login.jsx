@@ -20,6 +20,7 @@ const [input, setInput] = useState({
     password: "",
 });
 console.log(input)
+
 //reutilized el diseño de Toastify.
 const toastifyOptions = {
     position: "bottom-right",
@@ -31,12 +32,6 @@ const toastifyOptions = {
     progress: undefined,
     theme: "colored",
 }
-
-useEffect(() =>{
-    if(localStorage.getItem('chat-app-user')){
-        navigate('/')
-    }
-}, [])
 
 // eslint-disable-next-line no-unused-vars
 const handleValidation = () =>{
@@ -60,6 +55,7 @@ const handleSubmit = async (event) =>{
                 name,
                 password,
     });
+    console.log(data)
         if(data.status === false){
             toast.error(data.msg, toastifyOptions)
         }
@@ -78,6 +74,12 @@ const handleChange = (event) =>{
         [event.target.name]: event.target.value
     })
 };
+
+useEffect(() =>{
+    if(localStorage.getItem('chat-app-user')){
+        navigate('/')
+    }
+}, [])
 
 //formulario propiamente dicho:
     return ( 

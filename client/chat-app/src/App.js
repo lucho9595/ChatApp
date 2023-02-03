@@ -11,7 +11,7 @@ export default function App(){
       <Routes>
         <Route path="/register" element={<Register />}/>
         <Route path="/login" element={<Login />}/>
-        <Route path="/editUser/:id" element={<EditUser />}/>
+        <Route path="/edituser/:id" element={<EditUser />}/>
         <Route path="/" element={<Chat />}/>
       </Routes>
     </BrowserRouter>

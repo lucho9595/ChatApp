@@ -6,74 +6,59 @@ var bcrypt = require("bcrypt"); //registro
 
 
 function register(req, res, next) {
-  var _req$body, img, name, email, password, imgCheck, nameCheck, emailCheck, cryptPassword, user;
+  var _req$body, img, name, email, password, nameCheck, emailCheck, cryptPassword, user;
 
   return regeneratorRuntime.async(function register$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          _req$body = req.body, img = _req$body.img, name = _req$body.name, email = _req$body.email, password = _req$body.password;
+          _req$body = req.body, img = _req$body.img, name = _req$body.name, email = _req$body.email, password = _req$body.password; //Chequeamos que no exista el nombre
+
           _context.next = 4;
           return regeneratorRuntime.awrap(User.findOne({
-            img: img
+            name: name
           }));
 
         case 4:
-          imgCheck = _context.sent;
+          nameCheck = _context.sent;
 
-          if (!imgCheck) {
+          if (!nameCheck) {
             _context.next = 7;
             break;
           }
 
           return _context.abrupt("return", res.json({
-            msg: "img already used"
+            msg: "Name already used",
+            status: false
           }));
 
         case 7:
           _context.next = 9;
           return regeneratorRuntime.awrap(User.findOne({
-            name: name
+            email: email
           }));
 
         case 9:
-          nameCheck = _context.sent;
+          emailCheck = _context.sent;
 
-          if (!nameCheck) {
+          if (!emailCheck) {
             _context.next = 12;
             break;
           }
 
           return _context.abrupt("return", res.json({
-            msg: "Name already used"
+            msg: "Email already used",
+            status: false
           }));
 
         case 12:
           _context.next = 14;
-          return regeneratorRuntime.awrap(User.findOne({
-            email: email
-          }));
-
-        case 14:
-          emailCheck = _context.sent;
-
-          if (!emailCheck) {
-            _context.next = 17;
-            break;
-          }
-
-          return _context.abrupt("return", res.json({
-            msg: "Email already used"
-          }));
-
-        case 17:
-          _context.next = 19;
           return regeneratorRuntime.awrap(bcrypt.hash(password, 10));
 
-        case 19:
+        case 14:
           cryptPassword = _context.sent;
-          _context.next = 22;
+          _context.next = 17;
           return regeneratorRuntime.awrap(User.create({
             img: img,
             email: email,
@@ -81,23 +66,27 @@ function register(req, res, next) {
             password: cryptPassword
           }));
 
-        case 22:
+        case 17:
           user = _context.sent;
           delete user.password;
           console.log(user);
-          return _context.abrupt("return", user);
+          return _context.abrupt("return", res.json({
+            msg: "User Created",
+            status: true,
+            user: user
+          }));
 
-        case 28:
-          _context.prev = 28;
+        case 23:
+          _context.prev = 23;
           _context.t0 = _context["catch"](0);
-          console.log("El error es aca en el register:", _context.t0);
+          next("El error es aca en el register:", _context.t0);
 
-        case 31:
+        case 26:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[0, 28]]);
+  }, null, null, [[0, 23]]);
 } //logueo
 
 
@@ -150,6 +139,7 @@ function login(req, res, next) {
           delete user.password;
           console.log(user);
           return _context2.abrupt("return", res.json({
+            msg: "User login",
             status: true,
             user: user
           }));
@@ -169,17 +159,16 @@ function login(req, res, next) {
 
 
 function getAllUser(req, res, next) {
-  var _id, users;
-
+  var id, users;
   return regeneratorRuntime.async(function getAllUser$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
           _context3.prev = 0;
-          _id = req.params.id.id;
+          id = req.params.id.id;
           _context3.next = 4;
           return regeneratorRuntime.awrap(User.findOne({
-            id: _id
+            id: id
           }).select(["email", "name", "img", "id"]));
 
         case 4:
@@ -233,36 +222,33 @@ function getAllUsers(req, res, next) {
 
 
 function upDateUser(req, res, next) {
-  var _req$body3, name, email, password, img, imgId, user, newPassword, nuevoUser;
+  var _req$body3, id, name, email, password, img, imgId, user, newCryptPassword, nuevoUser;
 
   return regeneratorRuntime.async(function upDateUser$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.prev = 0;
-          _req$body3 = req.body, name = _req$body3.name, email = _req$body3.email, password = _req$body3.password, img = _req$body3.img, imgId = _req$body3.imgId;
-          if (!id) res.status(404).json({
-            msg: "id is require..."
-          });
-          _context5.next = 5;
+          _req$body3 = req.body, id = _req$body3.id, name = _req$body3.name, email = _req$body3.email, password = _req$body3.password, img = _req$body3.img, imgId = _req$body3.imgId;
+          _context5.next = 4;
           return regeneratorRuntime.awrap(User.findOne({
             where: {
               id: id
             }
           }));
 
-        case 5:
+        case 4:
           user = _context5.sent;
           if (!user) res.status(404).json({
             msg: "user not found..."
           });
 
-          if (!username) {
-            _context5.next = 10;
+          if (!name) {
+            _context5.next = 9;
             break;
           }
 
-          _context5.next = 10;
+          _context5.next = 9;
           return regeneratorRuntime.awrap(User.update({
             name: name
           }, {
@@ -271,13 +257,13 @@ function upDateUser(req, res, next) {
             }
           }));
 
-        case 10:
+        case 9:
           if (!email) {
-            _context5.next = 13;
+            _context5.next = 12;
             break;
           }
 
-          _context5.next = 13;
+          _context5.next = 12;
           return regeneratorRuntime.awrap(User.update({
             email: email
           }, {
@@ -286,92 +272,68 @@ function upDateUser(req, res, next) {
             }
           }));
 
-        case 13:
+        case 12:
           if (!password) {
-            _context5.next = 19;
+            _context5.next = 18;
             break;
           }
 
-          _context5.next = 16;
-          return regeneratorRuntime.awrap(encrypt(password));
+          _context5.next = 15;
+          return regeneratorRuntime.awrap(bcrypt.hash(password, 10));
 
-        case 16:
-          newPassword = _context5.sent;
-          _context5.next = 19;
+        case 15:
+          newCryptPassword = _context5.sent;
+          _context5.next = 18;
           return regeneratorRuntime.awrap(User.update({
-            password: newPassword
+            password: newCryptPassword
           }, {
             where: {
               id: id
             }
           }));
 
-        case 19:
+        case 18:
           if (!img) {
-            _context5.next = 29;
+            _context5.next = 21;
             break;
           }
 
-          if (!user.img) {
-            _context5.next = 27;
-            break;
-          }
+          _context5.next = 21;
+          return regeneratorRuntime.awrap(User.update({
+            img: img,
+            imgId: imgId
+          }, {
+            where: {
+              id: id
+            }
+          }));
 
+        case 21:
           _context5.next = 23;
-          return regeneratorRuntime.awrap(deleteImage(user.imgId));
-
-        case 23:
-          _context5.next = 25;
-          return regeneratorRuntime.awrap(User.update({
-            img: img,
-            imgId: imgId
-          }, {
-            where: {
-              id: id
-            }
-          }));
-
-        case 25:
-          _context5.next = 29;
-          break;
-
-        case 27:
-          _context5.next = 29;
-          return regeneratorRuntime.awrap(User.update({
-            img: img,
-            imgId: imgId
-          }, {
-            where: {
-              id: id
-            }
-          }));
-
-        case 29:
-          _context5.next = 31;
           return regeneratorRuntime.awrap(User.findOne({
             where: {
               id: id
             }
           }));
 
-        case 31:
+        case 23:
           nuevoUser = _context5.sent;
           console.log(nuevoUser);
           res.status(200).json(nuevoUser);
-          _context5.next = 39;
+          _context5.next = 31;
           break;
 
-        case 36:
-          _context5.prev = 36;
+        case 28:
+          _context5.prev = 28;
           _context5.t0 = _context5["catch"](0);
-          next("El error es en upDateUser ," + _context5.t0);
+          next(_context5.t0);
 
-        case 39:
+        case 31:
         case "end":
           return _context5.stop();
       }
     }
-  }, null, null, [[0, 36]]);
+  }, null, null, [[0, 28]]);
 } //borro el usuario
 
 

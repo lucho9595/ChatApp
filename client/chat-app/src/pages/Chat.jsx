@@ -27,13 +27,16 @@ const [isLoaded, setIsLoaded] = useState(false);
     const exist = async () => {
       if (currentUser) {
         if (currentUser.img) {
-          const data = await axios.get(`${allUsers}/${currentUser.id}`);
+          const data = await axios.get(allUsers);
           setContacts(data.data);
         }
       }
     };
     exist();
   }, [currentUser]);
+
+console.log(contacts)
+
   const handleChatChange = (chat) => {
     setCurrentChat(chat)
   };

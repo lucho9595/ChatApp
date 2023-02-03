@@ -9,19 +9,14 @@ const {
 const router = Router();
 
 //post del user register
-router.route("/register") 
-.post(register);
+router.route("/register").post(register);
 //post del user login
-router.route("/login")
-.post(login)
+router.route("/login").post(login)
 //obtener todos lo usuarios:
-router.route("/allusers")
-.get(getAllUsers)
+router.route("/allusers").get(getAllUsers)
 //obtener un usuario en especifico:
-router.route("/allusers/:id")
-.get(getAllUser)
+router.route("/allusers/:id").get(getAllUser)
 //modificar el usuario:
-router.route("/editUser/:id")
-.put(upDateUser)
+router.route("/edituser/:id").put(upDateUser)
 
 module.exports = router;

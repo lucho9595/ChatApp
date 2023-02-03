@@ -20,5 +20,5 @@ router.route("/allusers").get(getAllUsers); //obtener un usuario en especifico:
 
 router.route("/allusers/:id").get(getAllUser); //modificar el usuario:
 
-router.route("/editUser/:id").put(upDateUser);
+router.route("/edituser/:id").put(upDateUser);
 module.exports = router;
