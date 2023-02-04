@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.upDateUser = exports.allUsers = exports.loginRouter = exports.registerRouter = void 0;
+exports.deleteUser = exports.upDateUser = exports.allUsers = exports.loginRouter = exports.registerRouter = void 0;
 var host = "http://localhost:4000";
 var registerRouter = "".concat(host, "/register");
 exports.registerRouter = registerRouter;
@@ -13,3 +13,5 @@ var allUsers = "".concat(host, "/allusers");
 exports.allUsers = allUsers;
 var upDateUser = "".concat(host, "/edituser/:id");
 exports.upDateUser = upDateUser;
+var deleteUser = "".concat(host, "/deleteuser/");
+exports.deleteUser = deleteUser;

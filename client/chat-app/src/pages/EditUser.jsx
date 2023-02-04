@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
-import { upDateUser } from "../utils/APIroutes";
+import { upDateUser, deleteUser } from "../utils/APIroutes";
 import axios from "axios";
 
 function EditUser() {
@@ -37,6 +37,13 @@ function EditUser() {
     navigate("/");
   };
 
+  //borrar usuario:
+
+  const handleDelete = async (e) => {
+    const _id= settingUser?._id
+    await axios.delete(deleteUser+_id);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, email, password, img, imgId } = date;
@@ -53,20 +60,21 @@ function EditUser() {
     }
   };
 
-  const uploadImage = (files) =>{
-    const formData = new FormData()
-    formData.append("file", files[0])
-    formData.append("upload_preset", "gwdcxzmg")
-    axios.post("https://api.cloudinary.com/v1_1/datkl6kft/image/upload", formData)
-    .then((res) => {
-        console.log(res)
+  const uploadImage = (files) => {
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    formData.append("upload_preset", "gwdcxzmg");
+    axios
+      .post("https://api.cloudinary.com/v1_1/datkl6kft/image/upload", formData)
+      .then((res) => {
+        console.log(res);
         setDate({
-            ...date,
-            img: res.data.secure_url,
-            imgId: res.data.public_id,
-        })
-    })
-}
+          ...date,
+          img: res.data.secure_url,
+          imgId: res.data.public_id
+        });
+      });
+  };
 
   useEffect(() => {
     if (!localStorage.getItem("chat-app-user")) {
@@ -97,8 +105,14 @@ function EditUser() {
               <h6 className="user-email">{settingUser?.email}</h6>
             </div>
             <div className="exit">
-              <h5>Log Out</h5>
+              <h5>Sign out</h5>
               <Button onClick={handleClick}>
+                <BiLogOut />
+              </Button>
+            </div>
+            <div className="delete">
+              <h6>Delete User</h6>
+              <Button onClick={(e) => handleDelete(e)}>
                 <BiLogOut />
               </Button>
             </div>
