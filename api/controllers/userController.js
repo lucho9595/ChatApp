@@ -17,9 +17,9 @@ async function register(req, res, next) {
     const cryptPassword = await bcrypt.hash(password, 10);
     //creamos el usuario
     const user = await User.create({
-      img,
-      email,
-      name,
+      img: img,
+      email: email,
+      name: name,
       password: cryptPassword
     });
     delete user.password;
@@ -99,12 +99,17 @@ async function getAllUsers(req, res, next) {
 async function updateUser(req, res, next) {
   try {
     const { name, password, email, img} = req.body;
+    const cryptPassword = await bcrypt.hash(password, 10);
     const updateUser = await User.findOneAndUpdate({_id: req.params.id},{
-      name,
-      email,
-      password,
-      img
+      name: name,
+      email: email,
+      password: cryptPassword,
+      img: img,
     }); 
+        //Aca realizamos la encriptacion del password:
+
+        delete updateUser.password;
+
     console.log(req.body)
     console.log(req.params.id)
     res.status(200).json({msg: 'Updating user', updateUser});

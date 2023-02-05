@@ -96,6 +96,15 @@ const handleChange = (event) =>{
         [event.target.name]: event.target.value
     })
 };
+console.log(input)
+const handleChangeName = (event) =>{
+    event.preventDefault();
+    setInput({
+        ...input.name,
+        [event.target.name]: event.target.value
+    })
+};
+
 
 const uploadImage = (files) =>{
     const formData = new FormData()
@@ -125,7 +134,7 @@ const uploadImage = (files) =>{
                 type="text"
                 placeholder='Insert your name'
                 name='name'
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => handleChangeName(e)}
                 />
                 <input 
                 type="file"

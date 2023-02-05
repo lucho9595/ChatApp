@@ -28,8 +28,25 @@ function EditUser() {
 
   //button log out:
   const handleClick = async () => {
-    localStorage.clear();
-    navigate("/login");
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#1ba100',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, sign out!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Sign out success!',
+          'Your have left satisfactorily.',
+          'success'
+        )
+        localStorage.clear();
+        navigate("/login");    
+      }
+    })
   };
 
   //button cancel:
@@ -46,7 +63,7 @@ function EditUser() {
       text: "You won't be able to revert this!",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
+      confirmButtonColor: '#1ba100',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
@@ -125,7 +142,7 @@ function EditUser() {
                       <img src={pj?.img} alt="user" />
                     </div>
                     <h5 className="user-name">
-                      {pj?.name}
+                      {pj?.name[0].toUpperCase() + pj?.name.substring(1)}
                     </h5>
                     <h6 className="user-email">{pj?.email}</h6>
                   </div>
