@@ -6,6 +6,7 @@ import { upDateUser, deleteUser } from "../utils/APIroutes";
 import axios from "axios";
 
 function EditUser() {
+  const Swal = require('sweetalert2')
   const [settingUser, setSettingUser] = useState(undefined);
   const [date, setDate] = useState({
     img: "",
@@ -16,8 +17,7 @@ function EditUser() {
   });
   const navigate = useNavigate();
 
-  console.log(settingUser?._id);
-
+  //el change input:
   function handleChange(e) {
     setDate({
       ...date,
@@ -37,148 +37,175 @@ function EditUser() {
     navigate("/");
   };
 
+
   //borrar usuario:
+  const handleDelete = async (id) => {
+    const borrar = await axios.delete(deleteUser + id);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (borrar) {
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )  
+          localStorage.clear();
+          navigate("/login")
+        }else{
+        console.log("No se borro");
+      }
+    }})  
+    };
 
-  const handleDelete = async (e) => {
-    const _id= settingUser?._id
-    await axios.delete(deleteUser+_id);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const { name, email, password, img, imgId } = date;
-    const { data } = await axios.put(upDateUser, {
-      img,
-      imgId,
-      name,
-      email,
-      password
-    });
-    if (data.status === true) {
-      localStorage.setItem("chat-app-user", JSON.stringify(data.user));
-      navigate("/");
-    }
-  };
-
-  const uploadImage = (files) => {
-    const formData = new FormData();
-    formData.append("file", files[0]);
-    formData.append("upload_preset", "gwdcxzmg");
-    axios
-      .post("https://api.cloudinary.com/v1_1/datkl6kft/image/upload", formData)
-      .then((res) => {
-        console.log(res);
-        setDate({
-          ...date,
-          img: res.data.secure_url,
-          imgId: res.data.public_id
-        });
+    //modificar el usuario:
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      const { name, email, password, img, imgId } = date;
+      const { data } = await axios.put(upDateUser, {
+        img,
+        imgId,
+        name,
+        email,
+        password
       });
-  };
+      if (data.status === true) {
+        localStorage.setItem("chat-app-user", JSON.stringify(data.user));
+        navigate("/");
+      }
+    };
 
-  useEffect(() => {
-    if (!localStorage.getItem("chat-app-user")) {
-      navigate("/login");
-    } else {
-      setSettingUser(JSON.parse(localStorage.getItem("chat-app-user")));
-    }
-  }, [navigate]);
+    //subir la imagen que se modifica a la nube:
+    const uploadImage = (files) => {
+      const formData = new FormData();
+      formData.append("file", files[0]);
+      formData.append("upload_preset", "gwdcxzmg");
+      axios
+        .post("https://api.cloudinary.com/v1_1/datkl6kft/image/upload", formData)
+        .then((res) => {
+          console.log(res);
+          setDate({
+            ...date,
+            img: res.data.secure_url,
+            imgId: res.data.public_id
+          });
+        });
+    };
 
-  return (
-    <>
-      <Title>
-        <div className="title">
-          <h1>Profile Settings</h1>
-        </div>
-      </Title>
-      <Container>
-        <div className="container">
-          <div class="card1">
-            <div className="user-profile">
-              <div className="user-avatar">
-                <img src={settingUser?.img} alt="user" />
+    //guardar en un estado local la informacion del usuario logueado:
+    useEffect(() => {
+      if (!localStorage.getItem("chat-app-user")) {
+        navigate("/login");
+      } else {
+        setSettingUser(JSON.parse(localStorage.getItem("chat-app-user")));
+      }
+    }, [navigate]);
+
+    return (
+      <>
+        <Title>
+          <div className="title">
+            <h1>Profile Settings</h1>
+          </div>
+        </Title>
+        <Container>
+          {[settingUser]?.map((pj) => {
+            return (
+              <div className="container">
+                <div class="card1">
+                  <div className="user-profile">
+                    <div className="user-avatar">
+                      <img src={pj?.img} alt="user" />
+                    </div>
+                    <h5 className="user-name">
+                      {pj?.name}
+                    </h5>
+                    <h6 className="user-email">{pj?.email}</h6>
+                  </div>
+                  <div className="exit">
+                    <h5>Sign out</h5>
+                    <Button onClick={handleClick}>
+                      <BiLogOut />
+                    </Button>
+                  </div>
+                  <div className="delete">
+                    <h6>Delete User</h6>
+                    <Button onClick={(e) => handleDelete(pj?._id)}>
+                      <BiLogOut />
+                    </Button>
+                  </div>
+                </div>
               </div>
-              <h5 className="user-name">
-                {settingUser?.name.slice(0, 1).toUpperCase() +
-                  settingUser?.name.slice(1)}
-              </h5>
-              <h6 className="user-email">{settingUser?.email}</h6>
+            )
+          })}
+          <form class="card2" onSubmit={(event) => handleSubmit(event)}>
+            <h6 className="title2">Personal Details</h6>
+            <div className="image">
+              <label for="img">Changed Image</label>
+              <input
+                type="file"
+                className="form-control"
+                name="img"
+                id="image"
+                placeholder="Select Picture"
+                onChange={(e) => uploadImage(e.target.files)}
+              />
             </div>
-            <div className="exit">
-              <h5>Sign out</h5>
-              <Button onClick={handleClick}>
-                <BiLogOut />
-              </Button>
+            <div className="name">
+              <label for="name">Name</label>
+              <input
+                type="text"
+                className="form-control"
+                name="name"
+                id="name"
+                placeholder="Enter Name"
+                onChange={(e) => handleChange(e)}
+              />
             </div>
-            <div className="delete">
-              <h6>Delete User</h6>
-              <Button onClick={(e) => handleDelete(e)}>
-                <BiLogOut />
-              </Button>
+            <div className="email">
+              <label for="email">Email</label>
+              <input
+                type="Email"
+                className="form-control"
+                name="email"
+                id="Email"
+                placeholder="Enter Email"
+                onChange={(e) => handleChange(e)}
+              />
             </div>
-          </div>
-        </div>
-        <form class="card2" onSubmit={(event) => handleSubmit(event)}>
-          <h6 className="title2">Personal Details</h6>
-          <div className="image">
-            <label for="img">Changed Image</label>
-            <input
-              type="file"
-              className="form-control"
-              name="img"
-              id="image"
-              placeholder="Select Picture"
-              onChange={(e) => uploadImage(e.target.files)}
-            />
-          </div>
-          <div className="name">
-            <label for="name">Name</label>
-            <input
-              type="text"
-              className="form-control"
-              name="name"
-              id="name"
-              placeholder="Enter Name"
-              onChange={(e) => handleChange(e)}
-            />
-          </div>
-          <div className="email">
-            <label for="email">Email</label>
-            <input
-              type="Email"
-              className="form-control"
-              name="email"
-              id="Email"
-              placeholder="Enter Email"
-              onChange={(e) => handleChange(e)}
-            />
-          </div>
-          <div className="password">
-            <label for="password">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              name="password"
-              id="password"
-              placeholder="Enter password"
-              onChange={(e) => handleChange(e)}
-            />
-          </div>
-          <div className="buttons">
-            <button className="cancel" onClick={handleReturn}>
-              Cancel
-            </button>
-            <button type="submit" id="submit" name="submit" className="update">
-              Update
-            </button>
-          </div>
-        </form>
-      </Container>
-    </>
-  );
-}
+            <div className="password">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                className="form-control"
+                name="password"
+                id="password"
+                placeholder="Enter password"
+                onChange={(e) => handleChange(e)}
+              />
+            </div>
+            <div className="buttons">
+              <button className="cancel" onClick={handleReturn}>
+                Cancel
+              </button>
+              <button type="submit" id="submit" name="submit" className="update">
+                Update
+              </button>
+            </div>
+          </form>
+        </Container>
+      </>
+    );
+  }
 
-const Title = styled.div`
+  const Title = styled.div`
   .title {
     background-color: #1a233a;
     display: flex;
@@ -191,7 +218,7 @@ const Title = styled.div`
   }
 `;
 
-const Container = styled.div`
+  const Container = styled.div`
   background-color: #1a233a;
   color: #bcd0f7;
   height: 100vh;
@@ -405,7 +432,7 @@ const Container = styled.div`
   }
 `;
 
-const Button = styled.button`
+  const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
