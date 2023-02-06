@@ -26,6 +26,7 @@ function Contacts({ contacts, currentUser, changeChat }) {
     changeChat(contact);
   };
 
+
   return (
     <>
       {currentImage && currentName && (
@@ -68,7 +69,7 @@ function Contacts({ contacts, currentUser, changeChat }) {
             <div className="name">
               <h3>{currentName}</h3>
             </div>
-            <Link to={"/editUser/" + currentUser._id}>
+            <Link to={`/edituser/${currentUser._id}`}>
               <button>
                 <BiCog />
               </button>
