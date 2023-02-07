@@ -4,14 +4,14 @@ const bcrypt = require("bcrypt");
 //registro
 async function register(req, res, next) {
   try {
-    const {img, name, email, password } = req.body;
+    const { img, name, email, password } = req.body;
     //Chequeamos que no exista el nombre
-    const nameCheck = await User.findOne({name});
-    if (nameCheck) {return res.json({msg: "Name already used",status:false });}
+    const nameCheck = await User.findOne({ name });
+    if (nameCheck) { return res.json({ msg: "Name already used", status: false }); }
     //Chequeamos que no exista el email
-    const emailCheck = await User.findOne({email});
+    const emailCheck = await User.findOne({ email });
     if (emailCheck) {
-      return res.json({ msg: "Email already used",status:false });
+      return res.json({ msg: "Email already used", status: false });
     }
     //Aca realizamos la encriptacion del password:
     const cryptPassword = await bcrypt.hash(password, 10);
@@ -23,8 +23,7 @@ async function register(req, res, next) {
       password: cryptPassword
     });
     delete user.password;
-    console.log(user);
-    return res.json({msg: "User Created",status:true, user});
+    return res.json({ msg: "User Created", status: true });
   } catch (err) {
     next("El error es aca en el register:", err);
   }
@@ -53,8 +52,7 @@ async function login(req, res, next) {
       });
     }
     delete user.password;
-    console.log(user);
-    return res.json({msg: "User login",status: true, user});
+    return res.json({ msg: "User login", status: true });
   } catch (err) {
     next("El error es aca en el login:", err);
   }
@@ -63,14 +61,8 @@ async function login(req, res, next) {
 //busco uno por id
 async function getUser(req, res, next) {
   try {
-    const users = await User.findById(req.params.id).select([
-      "password",
-      "email",
-      "name",
-      "img",
-      "id"
-    ]);
-    console.log(users);
+    const users = await User.findById(req.params.id)
+    if (!users) { res.json({ msg: "User not found", status: false }) }
     return res.json(users);
   } catch (error) {
     next(error);
@@ -81,14 +73,8 @@ async function getUser(req, res, next) {
 //busco a todos
 async function getAllUsers(req, res, next) {
   try {
-    const users = await User.find({ id: req.params.id }).select([
-      "password",
-      "email",
-      "name",
-      "img",
-      "id"
-    ]);
-    console.log(users);
+    const users = await User.find({ _id: req.params.id })
+    if (!users) { res.json({ msg: "User not found", status: false }) }
     return res.json(users);
   } catch (error) {
     next(error);
@@ -98,40 +84,30 @@ async function getAllUsers(req, res, next) {
 //actualizo el usuario
 async function updateUser(req, res, next) {
   try {
-    const { name, password, email, img} = req.body;
+    const { name, password, email, img } = req.body;
+    //Aca realizamos la encriptacion del password:
     const cryptPassword = await bcrypt.hash(password, 10);
-    const updateUser = await User.findOneAndUpdate({_id: req.params.id},{
+    const updateUser = await User.findOneAndUpdate({ _id: req.params.id }, {
       name: name,
       email: email,
       password: cryptPassword,
       img: img,
-    }); 
-        //Aca realizamos la encriptacion del password:
-
-        delete updateUser.password;
-
-    console.log(req.body)
-    console.log(req.params.id)
-    res.status(200).json({msg: 'Updating user', updateUser});
-  }catch (error) {
+    });
+    delete updateUser.password;
+    res.status(200).json({ msg: 'Updating user', updateUser });
+  } catch (error) {
     next(error);
   }
 }
 
 //borro el usuario
-async function deleteUser(req, res, next){
-  try{
-    const deleteUser = await User.findByIdAndDelete(req.params.id).select([
-      "name",
-      "password",
-      "email",
-      "img",
-      "id"
-    ])
-    res.json({msg: 'User deleted ', deleteUser})
-  
-  }catch(error) {
-    next({msg: "En deleteUser esta el error:" , error})
+async function deleteUser(req, res, next) {
+  try {
+    const deleteUser = await User.findByIdAndDelete(req.params.id)
+    if (!deleteUser) { return res.json({ msg: "User not found", status: false }); }
+    res.json({ msg: 'User deleted ', status: true })
+  } catch (error) {
+    next({ msg: "En deleteUser esta el error:", error })
   }
 }
 

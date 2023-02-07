@@ -1,7 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import ChatInput from "./ChatInput";
+import Message from "./Message";
 
 export default function ChatContainer({ currentChat }) {
+
+  const handleSendMsg = async (msg) => {
+
+  };
+
   return (
     <>
       {currentChat && (
@@ -16,12 +23,8 @@ export default function ChatContainer({ currentChat }) {
               </div>
             </div>
           </div>
-          <div className="message">
-          </div>
-          <div className="chat-input">
-            <input type="text" />
-            <button>Send</button>
-          </div>
+          <Message />
+          <ChatInput handleSendMsg={handleSendMsg} />
         </Container>
       )
       }
