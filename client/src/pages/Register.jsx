@@ -5,15 +5,22 @@ import { Link } from "react-router-dom";
 function Register() {
   return (
     <Container>
-      <Link to={"/"} id="back">
-        <button className="btn btn-primary">Go Back</button>
-      </Link>
       <div className="form-container">
         <div className="image-holder"></div>
         <form method="post">
           <h2 className="text-center">
             <strong>Create</strong> an account.
           </h2>
+          <div className="form-group">
+            <input
+              className="form-control"
+              type="file"
+              name="Image"
+              placeholder="Image"
+              accept="image/*"
+            />
+          </div>
+
           <div className="form-group">
             <input
               className="form-control"
@@ -43,10 +50,11 @@ function Register() {
               className="form-control"
               type="password"
               name="password-repeat"
-              placeholder="Password (repeat)"
+              placeholder="Confirm Password"
             />
           </div>
           <div className="form-group-button">
+          <Link to={"/login"} id="link">
             <button
               className="btn btn-primary btn-block"
               id="signup"
@@ -54,6 +62,7 @@ function Register() {
             >
               Sign Up
             </button>
+            </Link>
           </div>
           <a href="/login" className="already">
             You already have an account?{" "}
@@ -69,7 +78,7 @@ export default Register;
 
 const Container = styled.div`
   background: orangered;
-  padding: 80px 0;
+  padding: 50px  0;
   height: 100vh;
   width: 100vw;
   .form-container {
@@ -83,13 +92,14 @@ const Container = styled.div`
       display: table-cell;
       width: auto;
       background-repeat: no-repeat;
+      background-size: cover;
     }
   }
   form {
     display: table-cell;
-    width: 400px;
+    width: 411px;
     background-color: #ffffff;
-    padding: 40px 60px;
+    padding: 22px 54px;
     color: #505e6c;
   }
   @media (max-width: 991px) {
@@ -115,28 +125,11 @@ const Container = styled.div`
     align-items: center;
   }
 
-  #back {
-    display: flex;
-    justify-content: center;
-    margin-top: -60px;
-    flex-wrap: wrap;
+  #link{
     text-decoration: none;
-    padding-bottom: 5px;
-    .btn-primary {
-      background: #f4476b;
-      border: none;
-      border-radius: 30px;
-      text-decoration: none;
-    }
-    .btn-primary:hover {
-      background: #eb3b60;
-    }
-    .btn-primary:active {
-      background: #eb3b60;
-      transform: translateY(1px);
-    }
+    display: grid;
+    align-items: center;
   }
-
   #signup {
     background: #f4476b;
     border: none;
