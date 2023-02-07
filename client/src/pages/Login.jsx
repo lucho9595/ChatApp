@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { BsGoogle } from "react-icons/bs";
 
 export default function Login() {
   return (
