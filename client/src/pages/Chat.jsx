@@ -34,12 +34,6 @@ export default function Chat(){
                                 <small>ultima conexion</small>
                             </div>
                         </div>
-                        <div class="col-lg-6 hidden-sm text-right">
-                            <i class="fa fa-camera"></i>
-                            <i class="fa fa-image"></i>
-                            <i class="fa fa-cogs"></i>
-                            <i class="fa fa-question"></i>
-                        </div>
                     </div>
                 </div>
                 <div class="chat-history">
