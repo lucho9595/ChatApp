@@ -4,9 +4,7 @@ const bcrypt = require("bcrypt");
 //busco uno por id
 async function getUser(req, res, next) {
   const userId = req.params.id;
-  console.log(userId)
   const username = req.body.username;
-  console.log(username)
   try {
     const user = userId
     ? await User.findById(userId)
