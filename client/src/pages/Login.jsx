@@ -57,12 +57,7 @@ const Container = styled.div`
     height: 100%;
   }
   #container2 {
-    background: radial-gradient(
-      circle,
-      rgba(242, 161, 99, 1) 0%,
-      rgba(255, 194, 157, 0) 70%
-    );
-    display: flex;
+    background: linear-gradient( rgba(242,161,99,1) 0%, rgba(255,194,157,0) 70% );    display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     height: 80%;
