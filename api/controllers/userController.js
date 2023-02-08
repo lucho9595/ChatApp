@@ -3,10 +3,15 @@ const bcrypt = require("bcrypt");
 
 //busco uno por id
 async function getUser(req, res, next) {
+  const userId = req.params.id;
+  console.log(userId)
+  const username = req.body.username;
+  console.log(username)
   try {
-    const users = await User.findById(req.params.id)
-    if (!users) { res.json({ msg: "User not found", status: false }) }
-    return res.json(users);
+    const user = userId
+    ? await User.findById(userId)
+    : await User.findOne({ username: username });
+  res.status(200).json(user);  
   } catch (error) {
     next(error);
   }
@@ -45,13 +50,14 @@ async function updateUser(req, res, next) {
 
 //borro el usuario
 async function deleteUser(req, res, next) {
+  if(req.params.id){
   try {
     const deleteUser = await User.findByIdAndDelete(req.params.id)
-    if (!deleteUser) { return res.json({ msg: "User not found", status: false }); }
     res.json({ msg: 'User deleted ', status: true })
   } catch (error) {
     next({ msg: "En deleteUser esta el error:", error })
   }
+}return res.status(403).json("You can delete only your account!");
 }
 
 module.exports = {

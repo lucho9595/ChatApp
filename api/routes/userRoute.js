@@ -15,12 +15,12 @@ router.route("/register").post(register);
 //post del user login
 router.route("/login").post(login)
 //obtener todos lo usuarios:
-router.route("/allusers").get(getAllUsers)
+router.route("/").get(getAllUsers)
 //obtener un usuario en especifico:
-router.route("/allusers/:id").get(getUser)
+router.route("/:id").get(getUser)
 //modificar el usuario:
-router.route("/edituser/:id").put(updateUser)
+router.route("/:id").put(updateUser)
 //eliminar el usuario:
-router.route("/deleteuser/:id").delete(deleteUser)
+router.route("/:id").delete(deleteUser)
 
 module.exports = router;
