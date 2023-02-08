@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    name: {
+    username: {
         type: String,
         required: true,
         min: 3,
@@ -18,15 +18,16 @@ const userSchema = new mongoose.Schema({
         required: true,
         min: 8,
     },
-    //es la imagen que va a elejir la persona, es booleano por que dependiendo al principio en el registro
-    //no va a poder seleccionar imagen, luego si.
     img: {
         type: String,
+        default: "https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-5.jpg",
     },
     imgId: {
         type: String,
+        default: "123456789",
     },
 },
+{ timestamps: true }
 );
 
-module.exports = mongoose.model("Users", userSchema);
+module.exports = mongoose.model("User", userSchema);

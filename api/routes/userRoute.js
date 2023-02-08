@@ -1,12 +1,13 @@
 const { Router } = require("express");
 const {
-  register,
-  login,
   getAllUsers,
   getUser,
   updateUser,
   deleteUser
 } = require("../controllers/userController");
+const {  register,
+  login,
+} = require("../controllers/auth");
 const router = Router();
 
 //post del user register
