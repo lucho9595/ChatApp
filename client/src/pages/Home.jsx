@@ -55,9 +55,9 @@ useEffect(() => {
       <header className="masthead text-center text-white row">
         <div className="masthead-content">
           <div className="container px-5">
-            <h1 className="masthead-heading mb-0">One Page Wonder</h1>
+            <h1 className="masthead-heading mb-0">Chatting has never been </h1>
             <h2 className="masthead-subheading mb-0">
-              Will Rock Your Socks Off
+              so comfortable
             </h2>
             <a
               className="btn btn-primary btn-xl rounded-pill mt-5"
