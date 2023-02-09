@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import Img1 from "../assets/img/01.jpg";
 import Img2 from "../assets/img/02.jpg";
 import Img3 from "../assets/img/03.jpg";
@@ -6,6 +7,8 @@ import Logo from "../assets/logo.png";
 import styles from "./Home.module.css";
 
 function Home() {
+const allUsers = useSelector((state) => state.users);
+console.log(allUsers)
   return (
     <div className="" id="page-top">
       <nav className="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
