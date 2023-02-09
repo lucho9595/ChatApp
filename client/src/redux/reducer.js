@@ -1,11 +1,23 @@
 /* eslint-disable default-case */
+import { persisLocalStorage, removeLocalStorage } from "../utils/LocalStorage";
+
 import {
-    GET_USERS
+    GET_USERS,
+    GET_USER,
+    POST_USER,
+    POST_LOGIN,
+    LOG_OUT,
+    EDIT_PROFILE,
+    DELETE_USER
 } from "./actions";
 
 const initialState = {
+    user: localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user"))
+        : null,
     users: [],
-    backUpUsers: []
+    backUpUsers: [],
+    detail: {}
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -15,6 +27,41 @@ const rootReducer = (state = initialState, action) => {
             users: action.payload,
             backUpUsers: action.payload
         }
+        case GET_USER: return {
+            ...state,
+            detail: action.payload
+        }
+        case POST_LOGIN:
+            persisLocalStorage("user", action.payload);
+            return {
+                ...state,
+                user: action.payload,
+            };
+        case POST_USER:
+            return {
+                ...state,
+                users: action.payload,
+                backUpUsers: action.payload
+            }
+        case LOG_OUT:
+            removeLocalStorage(action.payload);
+            localStorage.clear();
+            return {
+                ...state,
+                user: null,
+            };
+        case EDIT_PROFILE:
+            localStorage.setItem('user', JSON.stringify(action.payload))
+            return {
+                ...state,
+                user: action.payload
+            }
+        case DELETE_USER:
+            const deleteUser = state.backUpUsers.find((pj) => pj.id === action.payload);
+            return {
+                ...state,
+                users: deleteUser
+            };
         default: return state
     }
 };

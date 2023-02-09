@@ -19,7 +19,7 @@ async function getAllUsers(req, res, next) {
   try {
     const data = await User.find();
     if(!data){ res.json({msg:"Users not founc", status: false})}
-    res.json({status:true, data})
+    res.json({data})
   } catch (error) {
     next(error);
   }

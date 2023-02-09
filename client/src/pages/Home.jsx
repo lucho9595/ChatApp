@@ -1,14 +1,21 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Img1 from "../assets/img/01.jpg";
 import Img2 from "../assets/img/02.jpg";
 import Img3 from "../assets/img/03.jpg";
 import Logo from "../assets/logo.png";
 import styles from "./Home.module.css";
+import { getUsers } from "../redux/actions.js";
 
 function Home() {
+const dispatch = useDispatch()
 const allUsers = useSelector((state) => state.users);
-console.log(allUsers)
+console.log(allUsers.data)
+
+useEffect(() => {
+  dispatch(getUsers())
+}, [dispatch])
+
   return (
     <div className="" id="page-top">
       <nav className="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
