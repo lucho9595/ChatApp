@@ -12,7 +12,7 @@ app.use(cors());//permite que 2 servidores intercambien datos entre ellos
 app.use(express.json());
 
 //aca decimos que  utilize las rutas de userRoute
-app.use("/", userRoutes);
+app.use("/api", userRoutes);
 
 
 module.exports = app;

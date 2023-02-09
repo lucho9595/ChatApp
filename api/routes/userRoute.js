@@ -11,16 +11,16 @@ const {  register,
 const router = Router();
 
 //post del user register
-router.route("/register").post(register);
+router.route("/users").post(register);
 //post del user login
 router.route("/login").post(login)
 //obtener todos lo usuarios:
-router.route("/").get(getAllUsers)
+router.route("/users").get(getAllUsers)
 //obtener un usuario en especifico:
-router.route("/:id").get(getUser)
+router.route("/users/:id").get(getUser)
 //modificar el usuario:
-router.route("/:id").put(updateUser)
+router.route("/users/:id").put(updateUser)
 //eliminar el usuario:
-router.route("/:id").delete(deleteUser)
+router.route("/delete/:id").delete(deleteUser)
 
 module.exports = router;
