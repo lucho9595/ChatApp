@@ -2,16 +2,25 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import UploadImg from "../assets/uploadImg.png";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
 
 function Register() {
   const [input, setInput] = useState({
     username: "",
     email: "",
-    password: "",
-    confirmPassword: "",
     img: "",
   })
   const [loading, setLoading] = useState(true);
+  const [password, setPassword] = useState({
+    password: "",
+    confirmPassword: "",
+  }
+  );
+  const [showPwd, setShowPwd] = useState(false);
+
+  const changePasswordInput = (e) => {
+    setPassword(e.target.value);
+  };
 
   function handleInputChange(e) {
     setInput({
@@ -91,12 +100,25 @@ function Register() {
           </div>
           <div className="form-group">
             <input
-              onChange={(e) => handleInputChange(e)}
+              onChange={(e) => changePasswordInput(e)}
               className="form-control"
-              type="password"
+              type={showPwd ? "text" : "password"}
               name="password"
               placeholder="Password"
             />
+          </div>
+          <div className="change" onClick={() => setShowPwd(!showPwd)}>
+            {showPwd ? (
+              <EyeIcon
+                type="button"
+                className="change"
+              />
+            ) : (
+              <EyeSlashIcon
+                type="button"
+                className="change"
+              />
+            )}
           </div>
           <div className="form-group">
             <input
@@ -202,6 +224,14 @@ width: 100px;
   .form-group-button {
     display: grid;
     align-items: center;
+  }
+
+  .change{
+    width: 25px; 
+    margin: auto;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
   }
 
   #link{
