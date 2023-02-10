@@ -1,8 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import UploadImg from "../assets/uploadImg.png";
 
 function Register() {
+  const [input, setInput] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    img: "",
+  })
+  const [loading, setLoading] = useState(true);
+
+  function handleInputChange(e) {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  async function uploadImage(e) {
+    let image = e.target.files[0];
+    console.log(image)
+    const formData = new FormData()
+    formData.append('file', image);
+    formData.append('upload_preset', "iipcwipj");
+    try {
+      const res = await fetch('https://api.cloudinary.com/v1_1/datkl6kft/image/upload', {
+        method: 'POST',
+        body: formData
+      })
+      if (!res.ok) return null;
+      const data = await res.json();
+      setInput({
+        ...input,
+        img: data.secure_url,
+        imgId: data.public_id,
+      })
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+    }
+  };
+  console.log(input)
+
   return (
     <Container>
       <div className="form-container">
@@ -13,24 +55,34 @@ function Register() {
           </h2>
           <div className="form-group">
             <input
+              onChange={(e) => uploadImage(e)}
               className="form-control"
               type="file"
-              name="Image"
-              placeholder="Image"
-              accept="image/*"
+              name="img"
+              accept=".jpg, .png, .jpeg"
             />
+            {
+              loading ?
+                (<div className="loading-img-demo">
+                  <img src={UploadImg} className="loading-demo" />
+                </div>)
+                :
+                (<div className="contain-img-demo">
+                  <img src={input.img} className="img-demo" />
+                </div>)}
           </div>
-
           <div className="form-group">
             <input
+              onChange={(e) => handleInputChange(e)}
               className="form-control"
               type="text"
-              name="name"
-              placeholder="Name"
+              name="username"
+              placeholder="Username"
             />
           </div>
           <div className="form-group">
             <input
+              onChange={(e) => handleInputChange(e)}
               className="form-control"
               type="email"
               name="email"
@@ -39,6 +91,7 @@ function Register() {
           </div>
           <div className="form-group">
             <input
+              onChange={(e) => handleInputChange(e)}
               className="form-control"
               type="password"
               name="password"
@@ -47,6 +100,7 @@ function Register() {
           </div>
           <div className="form-group">
             <input
+              onChange={(e) => handleInputChange(e)}
               className="form-control"
               type="password"
               name="password-repeat"
@@ -54,14 +108,14 @@ function Register() {
             />
           </div>
           <div className="form-group-button">
-          <Link to={"/login"} id="link">
-            <button
-              className="btn btn-primary btn-block"
-              id="signup"
-              type="submit"
-            >
-              Sign Up
-            </button>
+            <Link to={"/login"} id="link">
+              <button
+                className="btn btn-primary btn-block"
+                id="signup"
+                type="submit"
+              >
+                Sign Up
+              </button>
             </Link>
           </div>
           <a href="/login" className="already">
@@ -77,30 +131,28 @@ function Register() {
 export default Register;
 
 const Container = styled.div`
-  background: orangered;
-  padding: 50px  0;
-  height: 100vh;
-  width: 100vw;
-  .form-container {
+background: #ff4500b8;
+    width: 100vw;
+      .form-container {
     display: table;
-    max-width: 900px;
-    width: 90%;
-    margin: 0 auto;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+    max-width: 955px;
+    width: 74%;
+    margin: auto;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
     .image-holder {
       background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png");
       display: table-cell;
-      width: auto;
       background-repeat: no-repeat;
       background-size: cover;
     }
   }
   form {
-    display: table-cell;
-    width: 411px;
+display: table-cell;
+    width: 409px;
     background-color: #ffffff;
     padding: 22px 54px;
     color: #505e6c;
+    height: 100vh;
   }
   @media (max-width: 991px) {
     form {
@@ -118,6 +170,33 @@ const Container = styled.div`
     text-indent: 6px;
     height: 40px;
     margin-bottom: 15px;
+  }
+
+.contain-img-demo{
+display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+  }
+
+.loading-img-demo{
+display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loading-demo{
+width: 100px;
+    border-radius: 81px;
+    height: 90px;  
+
+}
+
+  .img-demo{
+width: 100px;
+    border-radius: 81px;
+    height: 90px;  
   }
 
   .form-group-button {
