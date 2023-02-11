@@ -1,25 +1,66 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UploadImg from "../assets/uploadImg.png";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { createdUser, getUsers } from "../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 function Register() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const allUsers = useSelector((state) => state.users.data);
   const [input, setInput] = useState({
     username: "",
     email: "",
     img: "",
-  })
-  const [loading, setLoading] = useState(true);
-  const [password, setPassword] = useState({
     password: "",
     confirmPassword: "",
-  }
-  );
-  const [showPwd, setShowPwd] = useState(false);
+  })
+  const [loading, setLoading] = useState(true);
+  const [confirmShowPassword, setShowPasswordConfirm] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const changePasswordInput = (e) => {
-    setPassword(e.target.value);
+  //para errores
+  const toastifyOptions = {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: "colored",
+  }
+
+  const validation = (input) => {
+    if (input.password !== input.confirmPassword) {
+      toast.error("Passwords do not match", toastifyOptions)
+      return false;
+    }
+    else if (allUsers.find((usernames) => usernames.username === input.username)) {
+      toast.error("Username exits", toastifyOptions)
+      return false;
+    }
+    else if (input.username.length < 3) {
+      toast.error("Username is short", toastifyOptions)
+      return false;
+    }
+    else if (input.password.length < 8) {
+      toast.error("Passwords is short", toastifyOptions)
+      return false;
+    }
+    else if (input.email === "") {
+      toast.error("Email is required", toastifyOptions)
+      return false;
+    }
+    else if (input.img === "") {
+      toast.error("Img is required", toastifyOptions)
+      return false;
+    }
+    return true;
   };
 
   function handleInputChange(e) {
@@ -31,7 +72,6 @@ function Register() {
 
   async function uploadImage(e) {
     let image = e.target.files[0];
-    console.log(image)
     const formData = new FormData()
     formData.append('file', image);
     formData.append('upload_preset', "iipcwipj");
@@ -52,85 +92,123 @@ function Register() {
       console.log(error)
     }
   };
-  console.log(input)
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (validation(input)) {
+      dispatch(createdUser(input));
+      setInput({
+        username: "",
+        email: "",
+        img: "",
+        password: "",
+        confirmPassword: "",
+      })
+      navigate("/login")
+    }
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem('user')) {
+      navigate('/chat')
+    }
+    dispatch(getUsers())
+  }, [navigate])
 
   return (
-    <Container>
-      <div className="form-container">
-        <div className="image-holder"></div>
-        <form method="post">
-          <h2 className="text-center">
-            <strong>Create</strong> an account.
-          </h2>
-          <div className="form-group">
-            <input
-              onChange={(e) => uploadImage(e)}
-              className="form-control"
-              type="file"
-              name="img"
-              accept=".jpg, .png, .jpeg"
-            />
-            {
-              loading ?
-                (<div className="loading-img-demo">
-                  <img src={UploadImg} className="loading-demo" />
-                </div>)
-                :
-                (<div className="contain-img-demo">
-                  <img src={input.img} className="img-demo" />
-                </div>)}
-          </div>
-          <div className="form-group">
-            <input
-              onChange={(e) => handleInputChange(e)}
-              className="form-control"
-              type="text"
-              name="username"
-              placeholder="Username"
-            />
-          </div>
-          <div className="form-group">
-            <input
-              onChange={(e) => handleInputChange(e)}
-              className="form-control"
-              type="email"
-              name="email"
-              placeholder="Email"
-            />
-          </div>
-          <div className="form-group">
-            <input
-              onChange={(e) => changePasswordInput(e)}
-              className="form-control"
-              type={showPwd ? "text" : "password"}
-              name="password"
-              placeholder="Password"
-            />
-          </div>
-          <div className="change" onClick={() => setShowPwd(!showPwd)}>
-            {showPwd ? (
-              <EyeIcon
-                type="button"
-                className="change"
+    <>
+      <Container>
+        <div className="form-container">
+          <div className="image-holder"></div>
+          <form method="post" onSubmit={handleSubmit}>
+            <h2 className="text-center">
+              <strong>Create</strong> an account.
+            </h2>
+            <div className="form-group">
+              <input
+                onChange={(e) => uploadImage(e)}
+                className="form-control"
+                type="file"
+                name="img"
+                accept=".jpg, .png, .jpeg"
               />
-            ) : (
-              <EyeSlashIcon
-                type="button"
-                className="change"
+              {
+                loading ?
+                  (<div className="loading-img-demo">
+                    <img src={UploadImg} className="loading-demo" />
+                  </div>)
+                  :
+                  (<div className="contain-img-demo">
+                    <img src={input.img} className="img-demo" />
+                  </div>)}
+            </div>
+            <div className="form-group">
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="form-control"
+                type="text"
+                name="username"
+                placeholder="Username"
               />
-            )}
-          </div>
-          <div className="form-group">
-            <input
-              onChange={(e) => handleInputChange(e)}
-              className="form-control"
-              type="password"
-              name="password-repeat"
-              placeholder="Confirm Password"
-            />
-          </div>
-          <div className="form-group-button">
-            <Link to={"/login"} id="link">
+            </div>
+            <div className="form-group">
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="form-control"
+                type="email"
+                name="email"
+                placeholder="Email"
+              />
+            </div>
+            <div className="contain-eye" onClick={() => setShowPassword(!showPassword)}>
+              <div className="position">
+                {showPassword ? (
+                  <EyeIcon
+                    type="button"
+                    className="change"
+                  />
+                ) : (
+                  <EyeSlashIcon
+                    type="button"
+                    className="change"
+                  />
+                )}
+              </div>
+            </div>
+            <div className="form-group">
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="form-control"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+              />
+            </div>
+            <div className="contain-eye" onClick={() => setShowPasswordConfirm(!confirmShowPassword)}>
+              <div className="position">
+                {confirmShowPassword ? (
+                  <EyeIcon
+                    type="button"
+                    className="change"
+                  />
+                ) : (
+                  <EyeSlashIcon
+                    type="button"
+                    className="change"
+                  />
+                )}
+              </div>
+            </div>
+            <div className="form-group">
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="form-control"
+                type={confirmShowPassword ? "text" : "password"}
+                name="confirmPassword"
+                placeholder="Confirm Password"
+              />
+            </div>
+            <div className="form-group-button">
               <button
                 className="btn btn-primary btn-block"
                 id="signup"
@@ -138,15 +216,16 @@ function Register() {
               >
                 Sign Up
               </button>
-            </Link>
-          </div>
-          <a href="/login" className="already">
-            You already have an account?{" "}
-            <span className="login">Login here.</span>
-          </a>
-        </form>
-      </div>
-    </Container>
+            </div>
+            <a href="/login" className="already">
+              You already have an account?{" "}
+              <span className="login">Login here.</span>
+            </a>
+          </form>
+        </div>
+      </Container>
+      <ToastContainer />
+    </>
   );
 }
 
@@ -226,12 +305,26 @@ width: 100px;
     align-items: center;
   }
 
-  .change{
-    width: 25px; 
-    margin: auto;
+  .contain-eye{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: flex-start;
+    flex-direction: row;
+  }
+
+.position{
     display: flex;
     justify-content: flex-end;
     flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+  .change{
+    width: 25px;
+        position: relative;
+    top: 35px;
+    left: 16px;
   }
 
   #link{
@@ -239,6 +332,7 @@ width: 100px;
     display: grid;
     align-items: center;
   }
+  
   #signup {
     background: #f4476b;
     border: none;
