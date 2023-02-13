@@ -52,10 +52,6 @@ export default function Login() {
     e.preventDefault();
     if (validation(input)) {
       localStorage.setItem("user", JSON.stringify(dispatch(loginAuth(input))))
-      setInput({
-        username: "",
-        password: "",
-      })
       navigate("/")
     }
   }
