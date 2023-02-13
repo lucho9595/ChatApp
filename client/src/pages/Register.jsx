@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import UploadImg from "../assets/uploadImg.png";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { createdUser, getUsers } from "../redux/actions";
+import { createdUser } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 
 function Register() {
@@ -107,13 +107,6 @@ function Register() {
       navigate("/login")
     }
   }
-
-  useEffect(() => {
-    if (localStorage.getItem('user')) {
-      navigate('/chat')
-    }
-    dispatch(getUsers())
-  }, [navigate])
 
   return (
     <>

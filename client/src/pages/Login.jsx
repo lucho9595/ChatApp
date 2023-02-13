@@ -1,46 +1,111 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { loginAuth } from "../redux/actions";
+import { useDispatch } from "react-redux";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  //manejo de estado local
+  const [input, setInput] = useState({
+    username: "",
+    password: "",
+  });
+
+  //para errores
+  const toastifyOptions = {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: "colored",
+  }
+
+  const validation = (input) => {
+    if (input.password === "") {
+      toast.error("Password is required", toastifyOptions)
+      return false;
+    }
+    else if (input.username.length === "") {
+      toast.error("Name is required", toastifyOptions)
+      return false;
+    }
+    return true;
+  };
+
+  function handleInputChange(e) {
+    e.preventDefault();
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value
+    })
+  }
+
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (validation(input)) {
+      localStorage.setItem("user", JSON.stringify(dispatch(loginAuth(input))))
+      setInput({
+        username: "",
+        password: "",
+      })
+      navigate("/")
+    }
+  }
+
   return (
-    <Container>
-      <div className="justify-content-center" id="container">
-        <div className="col-md-6 col-lg-4" id="container2">
-          <div className="login-wrap p-0" id="container3">
-            <h3 className="mb-4 text-center">Sign In</h3>
-            <form className="signin-form">
-              <div className="form-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Username"
-                  required
-                />
+    <>
+      <Container>
+        <div className="justify-content-center" id="container">
+          <div className="col-md-6 col-lg-4" id="container2">
+            <div className="login-wrap p-0" id="container3">
+              <h3 className="mb-4 text-center">Sign In</h3>
+              <form className="signin-form" onSubmit={(e) => handleSubmit(e)}>
+                <div className="form-group">
+                  <input
+                    onChange={(e) => handleInputChange(e)}
+                    type="text"
+                    name="username"
+                    className="form-control"
+                    placeholder="Username"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <input
+                    onChange={(e) => handleInputChange(e)}
+                    type="password"
+                    name="password"
+                    className="form-control"
+                    placeholder="Password"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <button
+                    type="submit"
+                    className="form-control btn btn-primary submit px-3"
+                  >
+                    Sign In
+                  </button>
+                </div>
+              </form>
+              <p className="w-100 text-center">&mdash; Or Sign In With &mdash;</p>
+              <div className="social d-flex text-center">
               </div>
-              <div className="form-group">
-                <input
-                  type="password"
-                  className="form-control"
-                  placeholder="Password"
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <button
-                  type="submit"
-                  className="form-control btn btn-primary submit px-3"
-                >
-                  Sign In
-                </button>
-              </div>
-            </form>
-            <p className="w-100 text-center">&mdash; Or Sign In With &mdash;</p>
-            <div className="social d-flex text-center">
             </div>
           </div>
         </div>
-      </div>
-    </Container>
+      </Container>
+      <ToastContainer />
+    </>
   );
 }
 

@@ -1,56 +1,113 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Img1 from "../assets/img/01.jpg";
 import Img2 from "../assets/img/02.jpg";
 import Img3 from "../assets/img/03.jpg";
 import Logo from "../assets/logo.png";
+import { removeLocalStorage } from "../utils/LocalStorage";
 import styles from "./Home.module.css";
-import { getUsers } from "../redux/actions.js";
 
 function Home() {
-const dispatch = useDispatch()
-const allUsers = useSelector((state) => state.users);
-console.log(allUsers.data)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [userLocalStorage, setUserLocalStorage] = useState();
 
-useEffect(() => {
-  dispatch(getUsers())
-}, [dispatch])
+  const traerUser = JSON.parse(localStorage.getItem("user"));
+
+  useEffect(() => {
+    if (traerUser) {
+      setUserLocalStorage(traerUser.user)
+    } else {
+      return undefined
+    }
+  }, [])
+  console.log(userLocalStorage)
+
+  const handleClick = async () => {
+    removeLocalStorage('user')
+    navigate("/")
+  }
 
   return (
     <div className="" id="page-top">
-      <nav className="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
-        <div className="container px-5">
+      {userLocalStorage !== undefined ?
+        <nav className="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+          <div className="container px-5">
             <img src={Logo} alt="Logo" className={styles.img} />
-          <a className="navbar-brand" href="#page-top">
-            ChatApp
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarResponsive"
-            aria-controls="navbarResponsive"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarResponsive">
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                <a className="nav-link" href="/register">
-                  Sign Up
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/login">
-                  Log In
-                </a>
-              </li>
-            </ul>
+            <a className="navbar-brand" href="#page-top">
+              ChatApp
+            </a>
+            <button
+              className="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarResponsive"
+              aria-controls="navbarResponsive"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarResponsive">
+              <ul className="navbar-nav ms-auto">
+                <li className="nav-item">
+                  <p className="nav-link" >
+                    Hi {userLocalStorage?.username}
+                  </p>
+                </li>
+                <li className="nav-item">
+                  <img src={userLocalStorage?.img} alt="avatar-user" />
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/chat">
+                    Go Chat
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/" onClick={handleClick}>
+                    Log Out
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+        :
+        <nav className="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+          <div className="container px-5">
+            <img src={Logo} alt="Logo" className={styles.img} />
+            <a className="navbar-brand" href="#page-top">
+              ChatApp
+            </a>
+            <button
+              className="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarResponsive"
+              aria-controls="navbarResponsive"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarResponsive">
+              <ul className="navbar-nav ms-auto">
+                <li className="nav-item">
+                  <a className="nav-link" href="/register">
+                    Sign Up
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/login">
+                    Log In
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      }
       {/* <!-- Header--> */}
       <header className="masthead text-center text-white row">
         <div className="masthead-content">
@@ -161,7 +218,7 @@ useEffect(() => {
           </p>
         </div>
       </footer>
-    </div>
+    </div >
   );
 }
 
