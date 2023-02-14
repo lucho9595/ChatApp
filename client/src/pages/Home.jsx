@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -7,31 +8,26 @@ import Img3 from "../assets/img/03.jpg";
 import Logo from "../assets/logo.png";
 import { removeLocalStorage } from "../utils/LocalStorage";
 import styles from "./Home.module.css";
+import { loginAuth } from "../redux/actions";
 
 function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [userLocalStorage, setUserLocalStorage] = useState();
-
-  const traerUser = JSON.parse(localStorage.getItem("user"));
-
-  useEffect(() => {
-    if (traerUser) {
-      setUserLocalStorage(traerUser.user)
-    } else {
-      return undefined
-    }
-  }, [])
-  console.log(userLocalStorage)
-
+  // const [userLocalStorage, setUserLocalStorage] = useState(null);
+  const user = useSelector((state) => state.user)
+  console.log(user)
   const handleClick = async () => {
     removeLocalStorage('user')
     navigate("/")
   }
 
+  useEffect(() => {
+    dispatch(loginAuth(user))
+  }, [])
+
   return (
     <div className="" id="page-top">
-      {userLocalStorage !== undefined ?
+      {user !== null ?
         <nav className="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
           <div className="container px-5">
             <img src={Logo} alt="Logo" className={styles.img} />
@@ -53,11 +49,11 @@ function Home() {
               <ul className="navbar-nav ms-auto">
                 <li className="nav-item">
                   <p className="nav-link" >
-                    Hi {userLocalStorage?.username}
+                    Hi {user?.user?.username}
                   </p>
                 </li>
                 <li className="nav-item">
-                  <img src={userLocalStorage?.img} alt="avatar-user" />
+                  <img src={user?.user?.img} alt="avatar-user" />
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="/chat">

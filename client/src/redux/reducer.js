@@ -12,9 +12,7 @@ import {
 } from "./actions";
 
 const initialState = {
-    user: localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user"))
-        : null,
+    user: {},
     users: [],
     backUpUsers: [],
     detail: {}
@@ -32,7 +30,6 @@ const rootReducer = (state = initialState, action) => {
             detail: action.payload
         }
         case POST_LOGIN:
-            persisLocalStorage("user", action.payload);
             return {
                 ...state,
                 user: action.payload,
