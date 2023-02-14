@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ToastContainer, toast } from 'react-toastify';
@@ -28,12 +28,12 @@ export default function Login() {
   }
 
   const validation = (input) => {
-    if (input.password === "") {
-      toast.error("Password is required", toastifyOptions)
+    if (input.username === "") {
+      toast.error("Name is required", toastifyOptions)
       return false;
     }
-    else if (input.username.length === "") {
-      toast.error("Name is required", toastifyOptions)
+    else if (input.password === "") {
+      toast.error("Password is required", toastifyOptions)
       return false;
     }
     return true;
@@ -46,12 +46,17 @@ export default function Login() {
       [e.target.name]: e.target.value
     })
   }
+  console.log(input)
 
-
-  async function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validation(input)) {
-      localStorage.setItem("user", JSON.stringify(dispatch(loginAuth(input))))
+      localStorage.setItem("user", JSON.stringify(input))
+      dispatch(loginAuth(input))
+      setInput({
+        username: "",
+        password: ""
+      })
       navigate("/")
     }
   }
@@ -71,7 +76,6 @@ export default function Login() {
                     name="username"
                     className="form-control"
                     placeholder="Username"
-                    required
                   />
                 </div>
                 <div className="form-group">
@@ -81,7 +85,6 @@ export default function Login() {
                     name="password"
                     className="form-control"
                     placeholder="Password"
-                    required
                   />
                 </div>
                 <div className="form-group">

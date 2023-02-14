@@ -1,6 +1,3 @@
-/* eslint-disable default-case */
-import { persisLocalStorage, removeLocalStorage } from "../utils/LocalStorage";
-
 import {
     GET_USERS,
     GET_USER,
@@ -41,14 +38,11 @@ const rootReducer = (state = initialState, action) => {
                 backUpUsers: action.payload
             }
         case LOG_OUT:
-            removeLocalStorage(action.payload);
-            localStorage.clear();
             return {
                 ...state,
                 user: null,
             };
         case EDIT_PROFILE:
-            localStorage.setItem('user', JSON.stringify(action.payload))
             return {
                 ...state,
                 user: action.payload

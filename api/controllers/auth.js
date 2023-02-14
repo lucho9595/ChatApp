@@ -29,7 +29,7 @@ async function login(req, res, next) {
     const user = await User.findOne({
       username
     });
-    if (!user) {
+    if (!user.username) {
       return res.json({
         msg: "Incorrect username",
         status: false
@@ -44,7 +44,7 @@ async function login(req, res, next) {
       });
     }
     console.log(user)
-    return res.json({ msg: "User login", status: true, user });
+    return res.json({ user });
   } catch (err) {
     next("El error es aca en el login:", err);
   }

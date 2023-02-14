@@ -60,7 +60,7 @@ export function loginAuth(body) {
             let login = await axios.post(`http://localhost:4000/api/login`, body);
             return dispatch({
                 type: POST_LOGIN,
-                payload: login.data,
+                payload: login.data
             });
         } catch (error) {
             console.log(error);

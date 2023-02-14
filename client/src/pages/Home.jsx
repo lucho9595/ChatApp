@@ -6,28 +6,30 @@ import Img1 from "../assets/img/01.jpg";
 import Img2 from "../assets/img/02.jpg";
 import Img3 from "../assets/img/03.jpg";
 import Logo from "../assets/logo.png";
-import { removeLocalStorage } from "../utils/LocalStorage";
 import styles from "./Home.module.css";
-import { loginAuth } from "../redux/actions";
 
 function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const [userLocalStorage, setUserLocalStorage] = useState(null);
+  const [userLocalStorage, setUserLocalStorage] = useState(null);
   const user = useSelector((state) => state.user)
   console.log(user)
+
   const handleClick = async () => {
-    removeLocalStorage('user')
+    localStorage.clear()
     navigate("/")
   }
 
   useEffect(() => {
-    dispatch(loginAuth(user))
+    if (user?.username !== "") {
+      setUserLocalStorage(JSON.parse(localStorage.getItem("user")))
+    }
   }, [])
 
+  console.log(userLocalStorage)
   return (
     <div className="" id="page-top">
-      {user !== null ?
+      {userLocalStorage !== null ?
         <nav className="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
           <div className="container px-5">
             <img src={Logo} alt="Logo" className={styles.img} />
@@ -49,11 +51,11 @@ function Home() {
               <ul className="navbar-nav ms-auto">
                 <li className="nav-item">
                   <p className="nav-link" >
-                    Hi {user?.user?.username}
+                    Hi {userLocalStorage?.username}
                   </p>
                 </li>
                 <li className="nav-item">
-                  <img src={user?.user?.img} alt="avatar-user" />
+                  <img src={userLocalStorage?.user?.img} alt="avatar-user" />
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="/chat">
