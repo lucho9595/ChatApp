@@ -1,0 +1,11 @@
+.container {
+    background-color: #ec701d;
+    width: 100vw;
+    height: 100vh;
+}
+
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 150px;
+}
