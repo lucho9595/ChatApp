@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { loginAuth } from "../redux/actions";
-import { useDispatch } from "react-redux";
+import { getUsers, loginAuth } from "../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -14,6 +14,11 @@ export default function Login() {
     username: "",
     password: "",
   });
+  const user = useSelector((state) => state.users.data)
+
+  useEffect(() => {
+    dispatch(getUsers())
+  }, [])
 
   //para errores
   const toastifyOptions = {
@@ -28,11 +33,11 @@ export default function Login() {
   }
 
   const validation = (input) => {
-    if (input.username === "") {
+    if (!input.username) {
       toast.error("Name is required", toastifyOptions)
       return false;
     }
-    else if (input.password === "") {
+    if (!input.password) {
       toast.error("Password is required", toastifyOptions)
       return false;
     }
@@ -46,20 +51,19 @@ export default function Login() {
       [e.target.name]: e.target.value
     })
   }
-  console.log(input)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validation(input)) {
-      localStorage.setItem("user", JSON.stringify(input))
       dispatch(loginAuth(input))
       setInput({
         username: "",
-        password: ""
+        password: "",
       })
       navigate("/")
     }
   }
+
 
   return (
     <>

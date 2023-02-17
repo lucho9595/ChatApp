@@ -1,3 +1,4 @@
+import { persisLocalStorage } from "../utils/LocalStorage";
 import {
     GET_USERS,
     GET_USER,
@@ -9,7 +10,9 @@ import {
 } from "./actions";
 
 const initialState = {
-    user: {},
+    user: localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user"))
+        : null,
     users: [],
     backUpUsers: [],
     detail: {}
@@ -27,6 +30,7 @@ const rootReducer = (state = initialState, action) => {
             detail: action.payload
         }
         case POST_LOGIN:
+            persisLocalStorage("user", action.payload);
             return {
                 ...state,
                 user: action.payload,
