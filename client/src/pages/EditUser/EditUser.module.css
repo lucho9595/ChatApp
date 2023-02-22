@@ -1,11 +1,79 @@
-.container {
-    background-color: #ec701d;
-    width: 100vw;
-    height: 100vh;
+.title {
+    margin-top: 15px;
+    margin-left: 15px;
 }
 
 .avatar {
     width: 150px;
     height: 150px;
     border-radius: 150px;
+}
+
+.btnSave {
+    border-radius: 25px;
+    background-color: transparent;
+    color: black;
+    transition: all 500ms ease;
+    border: 2px solid #129f3e;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 8px;
+    margin-left: 8px;
+    margin-top: 8px;
+}
+
+.btnSave::before {
+    background-color: #4fe087;
+    transition: all 500ms ease;
+}
+
+.btnSave:hover {
+    animation: shadow-pulse 1000ms 1;
+    background-color: #129f3e;
+    color: white;
+}
+
+.btnCancel {
+    border-radius: 25px;
+    background-color: transparent;
+    color: black;
+    border: 2px solid #e22020;
+    font-weight: 700;
+    transition: all 500ms ease;
+    cursor: pointer;
+    padding: 8px;
+    margin-left: 8px;
+    border-radius: 25px;
+}
+
+.btnCancel::before {
+    background-color: #e53030;
+    transition: all 500ms ease;
+
+}
+
+.btnCancel:hover {
+    animation: shadow-pulse1 1000ms 1;
+    background-color: #e22027;
+    color: white;
+}
+
+@keyframes shadow-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(19, 157, 4, 0.6);
+    }
+
+    100% {
+        box-shadow: 0 0 8px 16px rgba(32, 226, 215, 0);
+    }
+}
+
+@keyframes shadow-pulse1 {
+    0% {
+        box-shadow: 0 0 0 0 rgba(243, 30, 30, 0.6);
+    }
+
+    100% {
+        box-shadow: 0 0 8px 16px rgba(32, 226, 215, 0);
+    }
 }

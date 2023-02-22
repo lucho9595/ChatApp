@@ -15,7 +15,7 @@ export default function App() {
         <Route path="/chat" element={<Chat />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/edituser/:id" element={<EditUser />} />
+        <Route path="/:id" element={<EditUser />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>

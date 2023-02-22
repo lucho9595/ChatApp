@@ -6,8 +6,8 @@ async function getUser(req, res, next) {
   const userId = req.params.id;
   try {
     const user = await User.findById(userId)
-    if(!user){ res.json({msg: 'User not found', status:false})}
-    res.status(200).json({status:true, user});
+    if (!user) { res.json({ msg: 'User not found', status: false }) }
+    res.status(200).json({ status: true, user });
   } catch (error) {
     next(error);
   }
@@ -18,8 +18,8 @@ async function getUser(req, res, next) {
 async function getAllUsers(req, res, next) {
   try {
     const data = await User.find();
-    if(!data){ res.json({msg:"Users not founc", status: false})}
-    res.json({data})
+    if (!data) { res.json({ msg: "Users not founc", status: false }) }
+    res.json({ data })
   } catch (error) {
     next(error);
   }
@@ -27,19 +27,15 @@ async function getAllUsers(req, res, next) {
 
 //actualizo el usuario
 async function updateUser(req, res, next) {
+  const { id } = req.params;
+  const { username, email, img } = req.body;
   try {
-    const id = req.params.id;
-    const { username, password, email, img } = req.body;
-    const options = { new: true };
-    //Aca realizamos la encriptacion del password:
-    const cryptPassword = await bcrypt.hash(password, 10);
-    const updateUser = await User.findOneAndUpdate({ _id: id }, {
-      username: username,
-      email: email,
-      password: cryptPassword,
-      img: img,
-    }, options);
-    res.json({ msg: 'Updating user', status:true, updateUser });
+    const user = await User.findByIdAndUpdate(id, {
+      username,
+      email,
+      img
+    })
+    res.json({ msg: 'Updating user', status: true, user });
   } catch (error) {
     next(error);
   }

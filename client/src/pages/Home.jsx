@@ -13,6 +13,7 @@ function Home() {
   const navigate = useNavigate();
   const [userLocalStorage, setUserLocalStorage] = useState(null);
   const user = useSelector((state) => state.user)
+  const id = useSelector((state) => state.user?.user?._id)
   console.log(user)
 
   const handleClick = async () => {
@@ -55,7 +56,7 @@ function Home() {
                   </p>
                 </li>
                 <li className="nav-item">
-                  <Link to={`/edituser/${userLocalStorage?.user?._id}`}>
+                  <Link to={`/${id}`}>
                     <img src={userLocalStorage?.user?.img} alt="avatar-user" className={styles.avatar} />
                   </Link>
                 </li>

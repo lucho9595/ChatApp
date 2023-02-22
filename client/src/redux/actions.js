@@ -81,6 +81,7 @@ export function editProfile(id, payload) {
     return async function (dispatch) {
         try {
             let edit = await axios.put(`http://localhost:4000/api/users/${id}`, payload);
+            console.log(edit.data)
             return dispatch({
                 type: EDIT_PROFILE,
                 payload: edit.data

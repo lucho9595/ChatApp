@@ -49,7 +49,8 @@ const rootReducer = (state = initialState, action) => {
         case EDIT_PROFILE:
             return {
                 ...state,
-                user: action.payload
+                user: action.payload,
+                users: action.payload
             }
         case DELETE_USER:
             const deleteUser = state.backUpUsers.find((pj) => pj.id === action.payload);

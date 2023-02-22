@@ -5,8 +5,8 @@ const bcrypt = require("bcrypt");
 async function register(req, res, next) {
   try {
     console.log(req.body)
-    const cryptPassword = await bcrypt.hash(req.body.password, 10);
-
+    const salt = await bcrypt.genSalt(10)
+    const cryptPassword = await bcrypt.hash(req.body.password, salt);
     const newUser = new User({
       img: req.body.img,
       username: req.body.username,
