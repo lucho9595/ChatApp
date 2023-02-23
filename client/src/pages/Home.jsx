@@ -13,7 +13,7 @@ function Home() {
   const navigate = useNavigate();
   const [userLocalStorage, setUserLocalStorage] = useState(null);
   const user = useSelector((state) => state.user)
-  const id = useSelector((state) => state.user?.user?._id)
+  const id = useSelector((state) => state.user?._id)
   console.log(user)
 
   const handleClick = async () => {
