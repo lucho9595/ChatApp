@@ -44,7 +44,7 @@ async function login(req, res, next) {
       });
     }
     console.log(user)
-    return res.json({ user });
+    res.json(user);
   } catch (err) {
     next("El error es aca en el login:", err);
   }

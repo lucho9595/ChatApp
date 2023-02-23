@@ -52,12 +52,12 @@ function Home() {
               <ul className="navbar-nav ms-auto">
                 <li className="nav-item">
                   <p className="nav-link" >
-                    Hi {userLocalStorage?.user?.username}
+                    Hi {userLocalStorage?.username}
                   </p>
                 </li>
                 <li className="nav-item">
                   <Link to={`/edituser/${id}`}>
-                    <img src={userLocalStorage?.user?.img} alt="avatar-user" className={styles.avatar} />
+                    <img src={userLocalStorage?.img} alt="avatar-user" className={styles.avatar} />
                   </Link>
                 </li>
                 <li className="nav-item">

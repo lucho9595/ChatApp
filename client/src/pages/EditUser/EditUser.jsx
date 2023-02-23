@@ -8,7 +8,7 @@ import styles from "./EditUser.module.css";
 export default function EditUser() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const user = useSelector((state) => state.user.user)
+    const user = useSelector((state) => state.user)
     const [id, setId] = useState(user?._id)
     const [password, setPassword] = useState(user?.password)
     const [username, setUsername] = useState(user?.username)
@@ -42,7 +42,6 @@ export default function EditUser() {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(editProfile(id, changeUser));
-        localStorage.setItem('user', JSON.stringify(changeUser))
         alert("Usuario editado")
         navigate("/")
     }
