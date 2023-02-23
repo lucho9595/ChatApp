@@ -27,15 +27,22 @@ async function getAllUsers(req, res, next) {
 
 //actualizo el usuario
 async function updateUser(req, res, next) {
-  const { id } = req.params;
-  const { username, email, img } = req.body;
+  const id = req.params.id;
   try {
-    const user = await User.findByIdAndUpdate(id, {
-      username,
-      email,
-      img
+    const newUserData = {
+      username: req.body.username,
+      email: req.body.email,
+      img: req.body.img
+    };
+
+    const user = await User.findByIdAndUpdate(id, newUserData, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false
     })
-    res.json({ msg: 'Updating user', status: true, user });
+
+    console.log(user)
+    res.json(user);
   } catch (error) {
     next(error);
   }

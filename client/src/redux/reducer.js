@@ -47,6 +47,7 @@ const rootReducer = (state = initialState, action) => {
                 user: null,
             };
         case EDIT_PROFILE:
+            persisLocalStorage("user", action.payload);
             return {
                 ...state,
                 user: action.payload,

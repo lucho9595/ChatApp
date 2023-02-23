@@ -78,10 +78,13 @@ export function userSignOut(datos) {
 
 //editar el perfil:
 export function editProfile(id, payload) {
+    console.log(id)
+    console.log("estoy aca")
     return async function (dispatch) {
+        console.log("avanzo 1 paso")
         try {
-            let edit = await axios.put(`http://localhost:4000/api/users/${id}`, payload);
-            console.log(edit.data)
+            const edit = await axios.put(`http://localhost:4000/api/users/${id}`, payload);
+            console.log(edit)
             return dispatch({
                 type: EDIT_PROFILE,
                 payload: edit.data

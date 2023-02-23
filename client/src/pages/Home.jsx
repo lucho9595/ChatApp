@@ -56,7 +56,7 @@ function Home() {
                   </p>
                 </li>
                 <li className="nav-item">
-                  <Link to={`/${id}`}>
+                  <Link to={`/edituser/${id}`}>
                     <img src={userLocalStorage?.user?.img} alt="avatar-user" className={styles.avatar} />
                   </Link>
                 </li>

@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { editProfile } from "../../redux/actions";
 import styles from "./EditUser.module.css";
 
 export default function EditUser() {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const user = useSelector((state) => state.user.user)
-    const { id } = useParams()
+    const [id, setId] = useState(user?._id)
+    const [password, setPassword] = useState(user?.password)
     const [username, setUsername] = useState(user?.username)
     const [email, setEmail] = useState(user?.email)
     const [img, setImg] = useState(user?.img)
     const [imgId, setImgId] = useState(user?.imgId)
 
-    console.log(id)
+
     async function uploadImage(e) {
         let image = e.target.files[0];
         const formData = new FormData()
@@ -27,25 +29,22 @@ export default function EditUser() {
             })
             if (!res.ok) return null;
             const data = await res.json();
-            setImg({
-                img: data.secure_url,
-            })
-            setImgId({
-                imgId: data.public_id,
-            })
+            setImg(data.secure_url)
+            setImgId(data.public_id)
         } catch (error) {
             console.log(error)
         }
     };
 
-    const changeUser = { username, email, img, imgId }
+    const changeUser = { id, password, username, email, img, imgId }
     console.log(changeUser)
 
-    async function handleSubmit(e) {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(editProfile(changeUser, id));
+        dispatch(editProfile(id, changeUser));
         localStorage.setItem('user', JSON.stringify(changeUser))
-        alert("usuario modificado")
+        alert("Usuario editado")
+        navigate("/")
     }
 
     return (
@@ -64,7 +63,7 @@ export default function EditUser() {
                         </div>
                         <div className="col-md-9 personal-info">
                             <h3>Personal info</h3>
-                            <form className="form">
+                            <form className="form" onSubmit={handleSubmit}>
                                 <div className="form-group">
                                     <h6>Upload a different photo...</h6>
                                     <input
@@ -124,9 +123,9 @@ export default function EditUser() {
                                 <div className="form-group">
                                     <label className="col-md-3 control-label"></label>
                                     <div className="col-md-10">
-                                        <input type="button" className={styles.btnSave} value="Save Changes" onClick={(e) => handleSubmit(e)} />
+                                        <input type="submit" className={styles.btnSave} value="Save Changes" />
                                         <Link to={"/"}>
-                                            <input type="reset" className={styles.btnCancel} value="Cancel" />
+                                            <input className={styles.btnCancel} value="Cancel" />
                                         </Link>
                                     </div>
                                 </div>
