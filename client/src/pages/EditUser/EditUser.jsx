@@ -11,11 +11,12 @@ export default function EditUser() {
     const user = useSelector((state) => state.user)
     const [id, setId] = useState(user?._id)
     const [password, setPassword] = useState(user?.password)
+    const [confirmPassword, setConfirmPassword] = useState("")
     const [username, setUsername] = useState(user?.username)
     const [email, setEmail] = useState(user?.email)
     const [img, setImg] = useState(user?.img)
     const [imgId, setImgId] = useState(user?.imgId)
-
+    const Swal = require('sweetalert2')
 
     async function uploadImage(e) {
         let image = e.target.files[0];
@@ -42,7 +43,13 @@ export default function EditUser() {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(editProfile(id, changeUser));
-        alert("Usuario editado")
+        Swal.fire({
+            position: 'top-center',
+            icon: 'success',
+            title: 'Your work has been saved',
+            showConfirmButton: false,
+            timer: 1500
+        })
         navigate("/")
     }
 
@@ -95,7 +102,7 @@ export default function EditUser() {
                                             onChange={(e) => setEmail(e.target.value)} />
                                     </div>
                                 </div>
-                                {/* <div className="form-group">
+                                <div className="form-group">
                                     <label className="col-md-3 control-label">Password:</label>
                                     <div className="col-md-10">
                                         <input
@@ -118,7 +125,7 @@ export default function EditUser() {
                                             value={confirmPassword}
                                             onChange={(e) => setConfirmPassword(e.target.value)} />
                                     </div>
-                                </div> */}
+                                </div>
                                 <div className="form-group">
                                     <label className="col-md-3 control-label"></label>
                                     <div className="col-md-10">
