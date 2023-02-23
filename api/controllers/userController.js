@@ -28,11 +28,17 @@ async function getAllUsers(req, res, next) {
 //actualizo el usuario
 async function updateUser(req, res, next) {
   const id = req.params.id;
+  const { username, email, img, password } = req.body
   try {
+    const salt = await bcrypt.genSalt(10)
+
+    const cryptPassword = await bcrypt.hash(password, salt);
+
     const newUserData = {
-      username: req.body.username,
-      email: req.body.email,
-      img: req.body.img
+      username,
+      email,
+      img,
+      password: cryptPassword,
     };
 
     const user = await User.findByIdAndUpdate(id, newUserData, {
