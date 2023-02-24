@@ -1,4 +1,4 @@
-import { persisLocalStorage } from "../utils/LocalStorage";
+import { persisLocalStorage, removeLocalStorage } from "../utils/LocalStorage";
 import {
     GET_USERS,
     GET_USER,
@@ -42,6 +42,8 @@ const rootReducer = (state = initialState, action) => {
                 backUpUsers: action.payload
             }
         case LOG_OUT:
+            removeLocalStorage(action.payload);
+            localStorage.clear();
             return {
                 ...state,
                 user: null,

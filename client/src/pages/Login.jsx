@@ -5,20 +5,22 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { getUsers, loginAuth } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
+import Loading from "./Loading";
 
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  //manejo de estado local
+  const allUsers = useSelector((state) => state.users.data)
   const [input, setInput] = useState({
     username: "",
     password: "",
   });
-  const user = useSelector((state) => state.users.data)
+  const Swal = require('sweetalert2')
+
 
   useEffect(() => {
-    dispatch(getUsers())
-  }, [])
+    dispatch(getUsers());
+  }, [dispatch])
 
   //para errores
   const toastifyOptions = {
@@ -32,18 +34,6 @@ export default function Login() {
     theme: "colored",
   }
 
-  const validation = (input) => {
-    if (!input.username) {
-      toast.error("Name is required", toastifyOptions)
-      return false;
-    }
-    if (!input.password) {
-      toast.error("Password is required", toastifyOptions)
-      return false;
-    }
-    return true;
-  };
-
   function handleInputChange(e) {
     e.preventDefault();
     setInput({
@@ -54,13 +44,22 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validation(input)) {
+    if (allUsers.find((usernames) => usernames.username === input.username)) {
       dispatch(loginAuth(input))
       setInput({
         username: "",
         password: "",
       })
+      Swal.fire("Logged in", "Your user login correctly", "success");
       navigate("/")
+    } else if (!input.password || !input.username) {
+      toast.error('Username and Password is required', toastifyOptions);
+    } else {
+      toast.error('Username not found', toastifyOptions);
+      setInput({
+        username: "",
+        password: "",
+      });
     }
   }
 

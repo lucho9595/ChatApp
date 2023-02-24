@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Img1 from "../assets/img/01.jpg";
 import Img2 from "../assets/img/02.jpg";
@@ -8,17 +8,36 @@ import Img3 from "../assets/img/03.jpg";
 import Logo from "../assets/logo.png";
 import styles from "./Home.module.css";
 import { Link } from "react-router-dom";
+import { userSignOut } from "../redux/actions";
 
 function Home() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [userLocalStorage, setUserLocalStorage] = useState(null);
   const user = useSelector((state) => state.user)
   const id = useSelector((state) => state.user?._id)
+  const Swal = require('sweetalert2')
   console.log(user)
 
   const handleClick = async () => {
-    localStorage.clear()
-    navigate("/")
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Logout!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Logged out',
+          'Your user has been logged out.',
+          'success'
+        )
+        dispatch(userSignOut(user))
+      }
+    })
   }
 
   useEffect(() => {
@@ -66,7 +85,7 @@ function Home() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="/" onClick={handleClick}>
+                  <a className="nav-link" onClick={handleClick}>
                     Log Out
                   </a>
                 </li>

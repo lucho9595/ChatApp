@@ -29,24 +29,27 @@ async function login(req, res, next) {
     const user = await User.findOne({
       username
     });
-    if (!user.username) {
+
+    if (!user) {
       return res.json({
-        msg: "Incorrect username",
+        msg: "Username Not Found",
         status: false
       });
     }
+
     //Aca comparamos que el password que ingresamos es igual al que esta en la base de datos.
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = bcrypt.compare(password, user.password);
+
     if (!isPasswordValid) {
       return res.json({
         msg: "Incorrect password",
         status: false
       });
     }
-    console.log(user)
+
     res.json(user);
   } catch (err) {
-    next("El error es aca en el login:", err);
+    next(err);
   }
 }
 
