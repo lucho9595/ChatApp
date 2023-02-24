@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import UploadImg from "../assets/uploadImg.png";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { createdUser } from "../redux/actions";
+import { createdUser, getUsers } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 
 function Register() {
@@ -22,6 +22,11 @@ function Register() {
   const [loading, setLoading] = useState(true);
   const [confirmShowPassword, setShowPasswordConfirm] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const Swal = require('sweetalert2')
+
+  useEffect(() => {
+    dispatch(getUsers());
+  }, [dispatch])
 
   //para errores
   const toastifyOptions = {
@@ -97,6 +102,7 @@ function Register() {
     e.preventDefault();
     if (validation(input)) {
       dispatch(createdUser(input));
+      Swal.fire("Register Succes", "Your user has been created successfully", "success");
       setInput({
         username: "",
         email: "",

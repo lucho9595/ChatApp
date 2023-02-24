@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import Img1 from "../assets/img/01.jpg";
 import Img2 from "../assets/img/02.jpg";
 import Img3 from "../assets/img/03.jpg";
@@ -11,7 +10,6 @@ import { Link } from "react-router-dom";
 import { userSignOut } from "../redux/actions";
 
 function Home() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [userLocalStorage, setUserLocalStorage] = useState(null);
   const user = useSelector((state) => state.user)
@@ -25,7 +23,7 @@ function Home() {
       text: "You won't be able to revert this!",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
+      confirmButtonColor: '#338d05',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, Logout!'
     }).then((result) => {

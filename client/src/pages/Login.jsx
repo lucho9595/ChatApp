@@ -56,10 +56,6 @@ export default function Login() {
       toast.error('Username and Password is required', toastifyOptions);
     } else {
       toast.error('Username not found', toastifyOptions);
-      setInput({
-        username: "",
-        password: "",
-      });
     }
   }
 
