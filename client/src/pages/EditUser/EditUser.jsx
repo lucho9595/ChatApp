@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { editProfile } from "../../redux/actions";
+import { deleteUser, editProfile, userSignOut } from "../../redux/actions";
 import styles from "./EditUser.module.css";
 
 export default function EditUser() {
@@ -53,6 +53,46 @@ export default function EditUser() {
         navigate("/")
     }
 
+    const handleDelete = (e) => {
+        e.preventDefault()
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                swalWithBootstrapButtons.fire(
+                    'Deleted!',
+                    'Your user has been deleted.',
+                    'success'
+                )
+                dispatch(deleteUser(user.id));
+                dispatch(userSignOut(user))
+                navigate("/")
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    'Cancelled',
+                    'Your imaginary file is safe :)',
+                    'error'
+                )
+            }
+        })
+    }
+
     return (
         <>
             <Container>
@@ -65,7 +105,12 @@ export default function EditUser() {
                                     <img src={user?.img} className="" alt="avatar" id="avatar" />
                                     <h4>{user?.username}</h4>
                                     <h6>{user?.email}</h6>
-                                    <input type="submit" className={styles.btnDelete} value="Delete User" />
+                                    <input
+                                        type="submit"
+                                        className={styles.btnDelete}
+                                        value="Delete User"
+                                        onClick={(e) => handleDelete(e)}
+                                    />
                                 </div>
                             </div>
                             <div className="col-md-8">
