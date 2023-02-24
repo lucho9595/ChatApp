@@ -64,7 +64,7 @@ export default function Login() {
     <>
       <Container>
         <div className="justify-content-center" id="container">
-          <div className="col-md-6 col-lg-4" id="container2">
+          <div className="col-md-6 col-lg-6" id="container2">
             <div className="login-wrap p-0" id="container3">
               <h3 className="mb-4 text-center">Sign In</h3>
               <form className="signin-form" onSubmit={(e) => handleSubmit(e)}>
@@ -120,7 +120,8 @@ const Container = styled.div`
     height: 100%;
   }
   #container2 {
-    background: linear-gradient( rgba(242,161,99,1) 0%, rgba(255,194,157,0) 70% );    display: flex;
+    background: linear-gradient( rgba(242,161,99,1) 0%, rgba(255,194,157,0) 70% );    
+    display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     height: 80%;

@@ -3,12 +3,6 @@
     margin-left: 15px;
 }
 
-.avatar {
-    width: 150px;
-    height: 150px;
-    border-radius: 150px;
-}
-
 .btnSave {
     border-radius: 25px;
     background-color: transparent;
@@ -53,6 +47,31 @@
 }
 
 .btnCancel:hover {
+    animation: shadow-pulse1 1000ms 1;
+    background-color: #e22027;
+    color: white;
+}
+
+.btnDelete {
+    border-radius: 25px;
+    background-color: transparent;
+    color: black;
+    border: 2px solid #e22020;
+    font-weight: 700;
+    transition: all 500ms ease;
+    cursor: pointer;
+    padding: 8px;
+    margin-left: 8px;
+    border-radius: 25px;
+}
+
+.btnDelete::before {
+    background-color: #e53030;
+    transition: all 500ms ease;
+
+}
+
+.btnDelete:hover {
     animation: shadow-pulse1 1000ms 1;
     background-color: #e22027;
     color: white;

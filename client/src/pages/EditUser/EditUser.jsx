@@ -56,84 +56,86 @@ export default function EditUser() {
     return (
         <>
             <Container>
-                <div id="container">
-                    <h1 className="title text-center">Edit Profile</h1>
-                    <hr />
+                <div className="row" id="container">
                     <div id="container2">
-                        <div className="col-md-3">
-                            <div className="text-center">
-                                <img src={user?.img} className={styles.avatar} alt="avatar" />
-                                <h4>{user?.username}</h4>
-                                <h5>{user?.email}</h5>
+                        <h1 className="title text-center">Edit Profile</h1>
+                        <div className="row" id="container3">
+                            <div className="col-md-4">
+                                <div className="text-center mx-auto">
+                                    <img src={user?.img} className="" alt="avatar" id="avatar" />
+                                    <h4>{user?.username}</h4>
+                                    <h6>{user?.email}</h6>
+                                    <input type="submit" className={styles.btnDelete} value="Delete User" />
+                                </div>
                             </div>
-                        </div>
-                        <div className="col-md-9 personal-info">
-                            <h3>Personal info</h3>
-                            <form className="form" onSubmit={handleSubmit}>
-                                <div className="form-group">
-                                    <h6>Upload a different photo...</h6>
-                                    <input
-                                        onChange={(e) => uploadImage(e)}
-                                        className="form-control"
-                                        type="file"
-                                        name="img"
-                                        accept=".jpg, .png, .jpeg" />
-                                    <label className="col-lg-3 control-label">Username:</label>
-                                    <div className="col-lg-10">
+                            <div className="col-md-8">
+                                <h3>Personal info</h3>
+                                <form className="form" onSubmit={handleSubmit}>
+                                    <div className="form-group">
+                                        <h6>Upload a different photo...</h6>
                                         <input
+                                            onChange={(e) => uploadImage(e)}
                                             className="form-control"
-                                            type="text"
-                                            placeholder="Username"
-                                            name="username"
-                                            value={username}
-                                            onChange={(e) => setUsername(e.target.value)}
-                                        />
+                                            type="file"
+                                            name="img"
+                                            accept=".jpg, .png, .jpeg" />
+                                        <label className="col-lg-3 control-label">Username:</label>
+                                        <div className="col-lg-10">
+                                            <input
+                                                className="form-control"
+                                                type="text"
+                                                placeholder="Username"
+                                                name="username"
+                                                value={username}
+                                                onChange={(e) => setUsername(e.target.value)}
+                                            />
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="form-group">
-                                    <label className="col-lg-3 control-label">Email:</label>
-                                    <div className="col-lg-10">
-                                        <input
-                                            className="form-control"
-                                            type="text"
-                                            placeholder="Email"
-                                            name="email"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)} />
+                                    <div className="form-group">
+                                        <label className="col-lg-3 control-label">Email:</label>
+                                        <div className="col-lg-10">
+                                            <input
+                                                className="form-control"
+                                                type="text"
+                                                placeholder="Email"
+                                                name="email"
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)} />
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="form-group">
-                                    <label className="col-md-3 control-label">Password:</label>
-                                    <div className="col-md-10">
-                                        <input
-                                            className="form-control"
-                                            type="password"
-                                            placeholder="Password"
-                                            name="password"
-                                            onChange={(e) => setPassword(e.target.value)} />
+                                    <div className="form-group">
+                                        <label className="col-md-3 control-label">Password:</label>
+                                        <div className="col-md-10">
+                                            <input
+                                                className="form-control"
+                                                type="password"
+                                                placeholder="Password"
+                                                name="password"
+                                                onChange={(e) => setPassword(e.target.value)} />
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="form-group">
-                                    <label className="col-md-3 control-label">Confirm password:</label>
-                                    <div className="col-md-10">
-                                        <input
-                                            className="form-control"
-                                            type="password"
-                                            placeholder="Confirm Password"
-                                            name="confirmPassword"
-                                            onChange={(e) => setConfirmPassword(e.target.value)} />
+                                    <div className="form-group">
+                                        <label className="col-md-3 control-label">Confirm password:</label>
+                                        <div className="col-md-10">
+                                            <input
+                                                className="form-control"
+                                                type="password"
+                                                placeholder="Confirm Password"
+                                                name="confirmPassword"
+                                                onChange={(e) => setConfirmPassword(e.target.value)} />
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="form-group">
-                                    <label className="col-md-3 control-label"></label>
-                                    <div className="col-md-10">
-                                        <input type="submit" className={styles.btnSave} value="Save Changes" />
-                                        <Link to={"/"}>
-                                            <input className={styles.btnCancel} value="Cancel" />
-                                        </Link>
+                                    <div className="form-group">
+                                        <label className="col-md-3 control-label"></label>
+                                        <div className="col-md-10">
+                                            <input type="submit" className={styles.btnSave} value="Save Changes" />
+                                            <Link to={"/"}>
+                                                <input type="reset" className={styles.btnCancel} value="Cancel" />
+                                            </Link>
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -146,4 +148,38 @@ const Container = styled.div`
 background-color: #ee6e18;
 width: 100vw;
 height: 100vh;
+  #container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+
+#container2{
+        display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+#container3{
+    background-color: white;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    width: 69%;
+    margin: 25px;
+    border-radius: 11px;
+    padding: 52px;
+        #avatar{
+            width: 150px;
+    height: 150px;
+    border-radius: 150px;
+    }
+}
+
 `;
