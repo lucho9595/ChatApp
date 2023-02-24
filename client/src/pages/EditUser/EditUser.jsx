@@ -110,7 +110,6 @@ export default function EditUser() {
                                             type="password"
                                             placeholder="Password"
                                             name="password"
-                                            value={password}
                                             onChange={(e) => setPassword(e.target.value)} />
                                     </div>
                                 </div>
@@ -122,7 +121,6 @@ export default function EditUser() {
                                             type="password"
                                             placeholder="Confirm Password"
                                             name="confirmPassword"
-                                            value={confirmPassword}
                                             onChange={(e) => setConfirmPassword(e.target.value)} />
                                     </div>
                                 </div>
