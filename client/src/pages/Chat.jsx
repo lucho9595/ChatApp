@@ -1,66 +1,79 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { getUsers } from "../redux/actions";
 
-export default function Chat(){
-    return(
-<Container>
-<div class="row clearfix">
-    <div class="col-lg-12">
-        <div class="card chat-app">
-            <div id="plist" class="people-list">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-search"></i></span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Search..." />
-                </div>
-                <ul class="list-unstyled chat-list mt-2 mb-0">
-                    <li class="clearfix">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar" />
-                        <div class="about">
-                            <div class="name">Vincent Porter</div>
-                            <div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>                                            
+export default function Chat() {
+    const dispatch = useDispatch()
+    const userLogged = useSelector((state) => state.user)
+    const users = useSelector((state) => state.users.data)
+    console.log(users)
+
+    useEffect(() => {
+        dispatch(getUsers())
+    }, [])
+
+    return (
+        <Container>
+            <div className="row clearfix">
+                <div className="col-lg-12">
+                    <div className="card chat-app">
+                        <div id="plist" className="people-list">
+                            <div className="input-group">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text"><i className="fa fa-search"></i></span>
+                                </div>
+                                <input type="text" className="form-control" placeholder="Search..." />
+                            </div>
+                            <ul className="chat-list mt-2 mb-0">
+                                {users?.map((user, id) => {
+                                    return <li className="clearfix" key={id}>
+                                        <img src={user.img} alt="avatar" />
+                                        <div className="about">
+                                            <div className="name">{user.username}</div>
+                                            <div className="status"> <i className="fa fa-circle offline"></i> left 7 mins ago </div>
+                                        </div>
+                                    </li>
+                                })}
+                            </ul>
                         </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="chat">
-                <div class="chat-header clearfix">
-                    <div class="row">
-                        <div class="col-lg-6">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar" />
-                            <div class="chat-about">
-                                <h6 class="m-b-0">pj activo</h6>
-                                <small>ultima conexion</small>
+                        <div className="chat">
+                            <div className="chat-header clearfix">
+                                <div className="row">
+                                    <div className="col-lg-6">
+                                        <img src={userLogged?.img} alt="avatar" />
+                                        <div className="chat-about">
+                                            <h6 className="m-b-0">{userLogged?.username}</h6>
+                                            <small>ultima conexion</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="chat-history">
+                                <ul className="m-b-0">
+                                    <li className="clearfix">
+                                        <div className="message-data text-right">
+                                            <span className="message-data-time">10:10 AM, Today</span>
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar" />
+                                        </div>
+                                        <div className="message other-message float-right"> Hi Aiden, how are you? How is the project coming along? </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="chat-message clearfix">
+                                <div className="input-group mb-0">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text"><i className="fa fa-send"></i></span>
+                                    </div>
+                                    <input type="text" className="form-control" placeholder="Enter text here..." />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="chat-history">
-                    <ul class="m-b-0">
-                        <li class="clearfix">
-                            <div class="message-data text-right">
-                                <span class="message-data-time">10:10 AM, Today</span>
-                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar" />
-                            </div>
-                            <div class="message other-message float-right"> Hi Aiden, how are you? How is the project coming along? </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="chat-message clearfix">
-                    <div class="input-group mb-0">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-send"></i></span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Enter text here..." />                                    
-                    </div>
-                </div>
             </div>
-        </div>
-    </div>
-</div>    
-</Container>
-)
+        </Container>
+    )
 }
 
 const Container = styled.div`
@@ -70,11 +83,9 @@ background-color: #f4f7f6;
     background: #fff;
     transition: .5s;
     border: 0;
-    margin-bottom: 30px;
     border-radius: .55rem;
     position: relative;
     width: 100%;
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
 }
 .chat-app .people-list {
     width: 280px;
@@ -82,7 +93,6 @@ background-color: #f4f7f6;
     left: 0;
     top: 0;
     padding: 20px;
-    z-index: 7
 }
 
 .chat-app .chat {

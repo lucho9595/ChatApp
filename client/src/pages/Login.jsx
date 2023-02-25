@@ -13,7 +13,7 @@ export default function Login() {
   const allUsers = useSelector((state) => state.users.data)
   const [input, setInput] = useState({
     username: "",
-    password: "",
+    password: ""
   });
   const Swal = require('sweetalert2')
 
@@ -24,7 +24,7 @@ export default function Login() {
 
   //para errores
   const toastifyOptions = {
-    position: "top-center",
+    position: "top-right",
     autoClose: 5000,
     hideProgressBar: false,
     closeOnClick: true,
@@ -44,7 +44,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (allUsers.find((usernames) => usernames.username === input.username)) {
+    if (allUsers.find((usernames) => usernames.username === input.username) && input.password) {
       dispatch(loginAuth(input))
       setInput({
         username: "",
@@ -52,11 +52,17 @@ export default function Login() {
       })
       Swal.fire("Logged in", "Your user login correctly", "success");
       navigate("/")
-    } else if (!input.password || !input.username) {
-      toast.error('Username and Password is required', toastifyOptions);
-    } else {
+    }
+    else if (input.password === "") {
+      toast.error('Password is required', toastifyOptions);
+    }
+    else if (input.username === "") {
+      toast.error('Username is required', toastifyOptions);
+    }
+    else if (allUsers.find((usernames) => usernames.username !== input.username)) {
       toast.error('Username not found', toastifyOptions);
     }
+
   }
 
 
