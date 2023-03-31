@@ -1,13 +1,14 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Img1 from "../assets/img/01.jpg";
-import Img2 from "../assets/img/02.jpg";
-import Img3 from "../assets/img/03.jpg";
-import Logo from "../assets/logo.png";
+import Img1 from "../../assets/img/01.jpg";
+import Img3 from "../../assets/img/03.jpg";
+import Img2 from "../../assets/img/02.jpg";
+import Logo from "../../assets/logo.png";
 import styles from "./Home.module.css";
 import { Link } from "react-router-dom";
-import { userSignOut } from "../redux/actions";
+import { userSignOut } from "../../redux/actions";
 
 function Home() {
   const dispatch = useDispatch();

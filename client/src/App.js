@@ -4,7 +4,7 @@ import Chat from "./pages/Chat/Chat";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import EditUser from "./pages/EditUser/EditUser";
-import Home from "./pages/Home";
+import Home from "./pages/Home/Home";
 import PageNotFound from "./pages/PageNotFound";
 
 export default function App() {
