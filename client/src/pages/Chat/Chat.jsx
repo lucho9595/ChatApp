@@ -22,10 +22,6 @@ export default function Chat() {
             <div className="row">
                 <div className="container">
                     <Contacts />
-                    <div className="userLogged">
-                        <img src={userLogged.img} className="avatar" />
-                        <h5>{userLogged.username}</h5>
-                    </div>
                 </div>
             </div>
         </Container>
@@ -33,25 +29,18 @@ export default function Chat() {
 }
 
 const Container = styled.div`
-height: 100vh;
-width: 100vw;
-background-color:aliceblue;
 display: flex;
 flex-direction: column;
+flex-wrap: wrap;
+align-content: center;
 align-items: center;
-justify-content: center;
 .container{
+    margin-top: 50px;
     display: flex;
-    flex-wrap: wrap;
     flex-direction: column;
     align-items: flex-start;
-    .userLogged{
-        margin: auto;
-        .avatar{
-            height: 5vh;
-            width: 5vw;
-            border-radius: 50px;
-        }
-    }
+    flex-wrap: wrap;
+    height: 94vh;
+    width: 94vw;
 }
 `

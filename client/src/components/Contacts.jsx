@@ -15,17 +15,21 @@ export default function Contacts() {
 
     return (
         <Container>
-            <div className="container">
+            <div className="containerContact">
                 <div className="users">
                     {
                         allUsers?.map((pj) => {
                             return (
-                                <div>
+                                <div className="user">
                                     <img src={pj.img} className="avatar" />
-                                    <p>{pj.username}</p>
+                                    <p className="text">{pj.username}</p>
                                 </div>)
                         })
                     }
+                    <div className="loggeado">
+                        <img src={logged?.img} className="avatar" />
+                        <h5 className="text">{logged?.username}</h5>
+                    </div>
                 </div>
             </div>
         </Container>
@@ -34,10 +38,40 @@ export default function Contacts() {
 
 const Container = styled.div`
 .users{
-    .avatar{
-        width: 5vw;
+    display: flex;
+    flex-direction: column;
+    .user{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-content: center;
+        margin-top: 20px;
+            .avatar{
         height: 5vh;
+        width: 5vw;
         border-radius: 50px;
+                    }
+                                .text{
+                margin: 8px;
+            }
+
     }
+    .loggeado{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+            .avatar{
+                height: 5vh;
+                width: 5vw;
+                border-radius: 50px;
+                    }
+            .text{
+                margin: 15px;
+            }
+    }
+    
 }
 `
