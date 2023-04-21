@@ -1,0 +1,26 @@
+div{
+    background-color: rgb(12, 2, 74);
+}
+
+/*Foto de perfil*/
+/*desktop*/
+@media (min-width: 576px){
+    #fotoperfil{
+        position: absolute;
+        width: 150px;
+        border-radius: 50%;
+        box-shadow: 2px 2px 2px black;
+        left: 1%;
+        top:320px;
+    }
+}
+/*mobile*/
+@media (max-width: 575px){
+    #fotoperfil{
+        position: relative;
+        left: 33%;
+        width: 35%;
+        border-radius: 50%;
+        box-shadow: 2px 2px 2px black;
+    }
+}
