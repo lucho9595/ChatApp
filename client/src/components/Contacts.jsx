@@ -83,15 +83,21 @@ const Container = styled.div`
 }
     }
     .loggeado{
+        color:white;
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
     margin-top: 20px;
+    background-color: #8d3b00;
+                    border-radius: 8px;
+
             .avatar{
                 height: 8vh;
                 width: 5vw;
                 border-radius: 50%;
+                max-inline-size: 100%;
                     }
             .text{
                 margin: 15px;
