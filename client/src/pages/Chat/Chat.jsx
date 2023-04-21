@@ -6,14 +6,11 @@ import styled from "styled-components";
 
 export default function Chat() {
     const navigate = useNavigate()
-    const [userLogged, setUserLogged] = useState([]);
 
     //aca decimos que si no tiene nada el localstorage, salga del chat, si no guardo el usuario logeado en un estado local
     useEffect(() => {
         if (!localStorage.getItem("user")) {
             navigate("/");
-        } else {
-            setUserLogged(JSON.parse(localStorage.getItem('user')))
         }
     }, [navigate])
 
@@ -35,7 +32,7 @@ flex-wrap: wrap;
 align-content: center;
 align-items: center;
 .container{
-    margin-top: 50px;
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
