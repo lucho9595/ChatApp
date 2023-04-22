@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // import styles from "./Chat.module.css";
 import Contacts from "../../components/Contacts";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import Welcome from "../../components/Welcome";
+import ChatContainer from "../../components/ChatContainer";
+
 
 export default function Chat() {
     const navigate = useNavigate()
@@ -12,6 +15,7 @@ export default function Chat() {
         if (!localStorage.getItem("user")) {
             navigate("/");
         }
+
     }, [navigate])
 
     return (
@@ -29,10 +33,9 @@ const Container = styled.div`
 display: flex;
 flex-direction: column;
 flex-wrap: wrap;
-align-content: center;
 align-items: center;
+gap: 1rem;
 .container{
-    margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
