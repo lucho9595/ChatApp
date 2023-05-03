@@ -52,7 +52,6 @@ height: 100vh;
     .back{
     .btn{
         color: white;
-        cursor: pointer;
         .arrow{
             height: 35px;
             width: 25px;
