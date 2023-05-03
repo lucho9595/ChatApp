@@ -1,9 +1,10 @@
 import React from "react";
+import Await from "../assets/robot.gif"
 
 export default function Welcome() {
     return (
         <div>
-            welcome
+            <img src={Await} alt="robot" className="robot" />
         </div>
     );
 };
