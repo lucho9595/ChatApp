@@ -10,7 +10,7 @@ import ChatContainer from "../../components/ChatContainer";
 export default function Chat() {
     const navigate = useNavigate()
 
-    //aca decimos que si no tiene nada el localstorage, salga del chat, si no guardo el usuario logeado en un estado local
+    //aca decimos que si no tiene nada el localstorage, salga del chat
     useEffect(() => {
         if (!localStorage.getItem("user")) {
             navigate("/");
@@ -30,17 +30,22 @@ export default function Chat() {
 }
 
 const Container = styled.div`
-display: flex;
-flex-direction: column;
-flex-wrap: wrap;
-align-items: center;
-gap: 1rem;
-.container{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    height: 94vh;
-    width: 94vw;
-}
-`
+height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  background-color: #131324;
+  .container {
+    height: 85vh;
+    width: 85vw;
+    background-color: #00000076;
+    display: grid;
+    grid-template-columns: 25% 75%;
+    @media screen and (min-width: 720px) and (max-width: 1080px) {
+      grid-template-columns: 35% 65%;
+    }
+  }
+  `

@@ -4,9 +4,35 @@ import { getUsers } from "../redux/actions";
 import styled from "styled-components";
 import Logo from "../assets/logo.png";
 
-export default function Contacts() {
+export default function Contacts({ changeChat }) {
     const dispatch = useDispatch();
     const allUsers = useSelector((state) => state.users.data);
+    const [currentUserName, setCurrentUserName] = useState(undefined);
+    const [currentUserImage, setCurrentUserImage] = useState(undefined);
+    const [currentSelected, setCurrentSelected] = useState(undefined);
+    const [error, setError] = useState(false)
+
+    useEffect(() => {
+        const info = async () => {
+            try {
+                const data = await JSON.parse(
+                    localStorage.getItem('user')
+                );
+                setCurrentUserName(data.username);
+                setCurrentUserImage(data.img);
+                dispatch(getUsers());
+            } catch {
+                setError(true);
+                console.log(error);
+            }
+            info()
+        }
+    }, [dispatch]);
+
+    const changeCurrentChat = (index, pj) => {
+        setCurrentSelected(index);
+        changeChat(pj);
+    };
 
     //aca tengo a todos los usuarios
     const Usuarios = ({ pj }) => {
@@ -18,74 +44,78 @@ export default function Contacts() {
         )
     }
 
-    useEffect(() => {
-        dispatch(getUsers());
-    }, [dispatch])
-
     return (
         <Container>
-            <div className="row" id="containerContact">
-                <div className="imgLogo">
-                    <img src={Logo} alt="" className="logo" />
-                    <h4>ChatApp</h4>
-                </div>
-                <div className="users">
-                    {
-                        allUsers?.slice(1).map(pj => <Usuarios pj={pj} key={pj._id} />)
-                    }
-                </div>
+            <div className="imgLogo">
+                <img src={Logo} alt="" className="logo" />
+                <h4 className="title">ChatApp</h4>
+            </div>
+            <div className="users">
+                {
+                    allUsers?.slice(1).map((pj, index) => <Usuarios pj={pj} key={pj._id}
+                        className={`user ${index === currentSelected ?
+                            "selected" : ""}`}
+                        onClick={() => changeCurrentChat(index, pj)} />)
+                }
             </div>
         </Container>
     )
 }
 
 const Container = styled.div`
-
-grid-template-columns: 10% 75% 15%;
-
-.imgLogo{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    .logo{
-        height: 10vh;
+    display: grid;
+  grid-template-rows: 15% 85%;
+  overflow: hidden;
+  background-color: #080420;    
+  .imgLogo{
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        justify-content: center;
+        .logo{
+            height: 2rem;
+        }
+        .title{
+            color: white;
+            text-transform: uppercase;
+        }
     }
-}
-
-.users{
-    display: flex;
+    .users{
+        display: flex;
     flex-direction: column;
     align-items: center;
     overflow: auto;
     gap: 0.8rem;
-    .user{
-        background-color: #ff303039;
-        display: flex;
-        flex-wrap: wrap;
-        align-content: center;
-        align-items: center;
-        cursor: pointer;
-        min-height: 15px;
-        width: 90%;
-        border-radius: 15px;
-        padding: 14px;
-        gap: 1rem;
-        transition: 0.5s ease-in-out;
-        .avatar{
-        height: 8vh;
-        width: 21%;
-        border-radius: 50%;
-                    }
-                                .text{
-                margin: 6px;
-                
-            }
-        :hover{
-    background-color: #ffd47f;
-    border-radius: 15px;
-            }
+    &::-webkit-scrollbar {
+      width: 0.2rem;
+      &-thumb {
+        background-color: #ffffff39;
+        width: 0.1rem;
+        border-radius: 1rem;
+      }
+    }   
+        .user{
+           background-color: #ffffff34;
+      min-height: 5rem;
+      cursor: pointer;
+      width: 90%;
+      border-radius: 0.2rem;
+      padding: 0.4rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      transition: 0.5s ease-in-out;
+        }
     }
-}
+    .avatar{
+        height: 3rem;
+    }
+
+    .text{
+        color: white;
+    }
+
+    .selected {
+      background-color: #9a86f3;
+    }
 `
