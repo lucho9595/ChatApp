@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Welcome from "../../components/Welcome";
 import ChatContainer from "../../components/ChatContainer";
+import { IoIosArrowDropleftCircle } from "react-icons/io";
+
 
 
 export default function Chat() {
@@ -25,6 +27,11 @@ export default function Chat() {
     return (
         <Container>
             <div className="row">
+                <div className="back">
+                    <a href="javascript: history.go(-1)" className="btn">
+                        <IoIosArrowDropleftCircle className="arrow" />
+                    </a>
+                </div>
                 <div className="container">
                     <Contacts changeChat={handleChange} />
                 </div>
@@ -42,9 +49,22 @@ height: 100vh;
   gap: 1rem;
   align-items: center;
   background-color: #e64010;
+    .back{
+    .btn{
+        color: white;
+        cursor: pointer;
+        .arrow{
+            height: 35px;
+            width: 25px;
+            cursor: pointer;
+            margin-left: 21px;
+        }
+    }
+  }
+
   .container {
-    height: 90vh;
-    width: 90vw;
+    height: 86vh;
+    width: 86vw;
     background-color: #00000076;
     border-radius: 10px;
     display: grid;
