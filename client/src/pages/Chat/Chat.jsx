@@ -9,20 +9,24 @@ import ChatContainer from "../../components/ChatContainer";
 
 export default function Chat() {
     const navigate = useNavigate()
-
+    const [currentChat, setCurrentChat] = useState(undefined)
     //aca decimos que si no tiene nada el localstorage, salga del chat
     useEffect(() => {
         if (!localStorage.getItem("user")) {
             navigate("/");
         }
 
-    }, [navigate])
+    }, [navigate]);
+
+    const handleChange = (chat) => {
+        setCurrentChat(chat)
+    }
 
     return (
         <Container>
             <div className="row">
                 <div className="container">
-                    <Contacts />
+                    <Contacts changeChat={handleChange} />
                 </div>
             </div>
         </Container>
@@ -37,11 +41,12 @@ height: 100vh;
   justify-content: center;
   gap: 1rem;
   align-items: center;
-  background-color: #131324;
+  background-color: #e64010;
   .container {
-    height: 85vh;
-    width: 85vw;
+    height: 90vh;
+    width: 90vw;
     background-color: #00000076;
+    border-radius: 10px;
     display: grid;
     grid-template-columns: 25% 75%;
     @media screen and (min-width: 720px) and (max-width: 1080px) {
