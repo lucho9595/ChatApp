@@ -33,7 +33,7 @@ export default function Chat() {
                     setError(true);
                     console.log(error);
                 }
-                console.log(info())
+                info()
             }
         }
     }, [navigate]);
