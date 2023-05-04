@@ -11,14 +11,34 @@ import { IoIosArrowDropleftCircle } from "react-icons/io";
 
 export default function Chat() {
     const navigate = useNavigate()
-    const [currentChat, setCurrentChat] = useState(undefined)
+    const [currentChat, setCurrentChat] = useState(undefined);
+    const [currentUser, setCurrentUser] = useState(undefined);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [error, setError] = useState(false);
+
+
     //aca decimos que si no tiene nada el localstorage, salga del chat
     useEffect(() => {
         if (!localStorage.getItem("user")) {
             navigate("/");
+        } else {
+            setIsLoaded(true);
+            const info = async () => {
+                try {
+                    const data = await JSON.parse(
+                        localStorage.getItem('user')
+                    );
+                    setCurrentUser(data)
+                } catch {
+                    setError(true);
+                    console.log(error);
+                }
+                console.log(info())
+            }
         }
-
     }, [navigate]);
+
+
 
     const handleChange = (chat) => {
         setCurrentChat(chat)
@@ -34,7 +54,7 @@ export default function Chat() {
                 </div>
                 <div className="container">
                     <Contacts changeChat={handleChange} />
-                    {currentChat === undefined ? (
+                    {isLoaded && currentChat === undefined ? (
                         <Welcome />
                     ) : (
                         <ChatContainer currentChat={currentChat} />
