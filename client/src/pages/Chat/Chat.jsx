@@ -12,31 +12,18 @@ import { IoIosArrowDropleftCircle } from "react-icons/io";
 export default function Chat() {
     const navigate = useNavigate()
     const [currentChat, setCurrentChat] = useState(undefined);
-    const [currentUser, setCurrentUser] = useState(undefined);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [error, setError] = useState(false);
 
 
     //aca decimos que si no tiene nada el localstorage, salga del chat
     useEffect(() => {
-        const info = async () => {
-            try {
-                if (!localStorage.getItem('user')) {
-                    navigate("/login");
-                } else {
-                    setCurrentUser(
-                        await JSON.parse(
-                            localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-                        )
-                    );
-                }
-            } catch {
-                setError(true);
-                console.log(error);
-            }
-            info()
+        if (!localStorage.getItem("user")) {
+            navigate("/");
+        } else {
+            setIsLoaded(true);
         }
-    }, []);
+    }, [navigate]);
+
 
 
     const handleChange = (chat) => {
