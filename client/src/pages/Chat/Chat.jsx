@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 // import styles from "./Chat.module.css";
 import Contacts from "../../components/Contacts";
 import { useNavigate } from "react-router-dom";
@@ -19,25 +19,24 @@ export default function Chat() {
 
     //aca decimos que si no tiene nada el localstorage, salga del chat
     useEffect(() => {
-        if (!localStorage.getItem("user")) {
-            navigate("/");
-        } else {
-            setIsLoaded(true);
-            const info = async () => {
-                try {
-                    const data = await JSON.parse(
-                        localStorage.getItem('user')
+        const info = async () => {
+            try {
+                if (!localStorage.getItem('user')) {
+                    navigate("/login");
+                } else {
+                    setCurrentUser(
+                        await JSON.parse(
+                            localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+                        )
                     );
-                    setCurrentUser(data)
-                } catch {
-                    setError(true);
-                    console.log(error);
                 }
-                info()
+            } catch {
+                setError(true);
+                console.log(error);
             }
+            info()
         }
-    }, [navigate]);
-
+    }, []);
 
 
     const handleChange = (chat) => {
