@@ -17,6 +17,12 @@ export default function ChatContainer({ currentChat }) {
                             </div>
                         </div>
                     </div>
+                    <div className="chat-message">
+
+                    </div>
+                    <div className="chat-input">
+
+                    </div>
                 </Container>
             )}
         </>
@@ -34,7 +40,13 @@ const Container = styled.div`
             display: flex;
             align-items: center;
             gap: 1rem;
-            .avatar
+            .avatar{
+                height: 15px;
+                width: 15px;
+            }
+            .username{
+                font-size: 15px;
+            }
         }
     }
     
