@@ -1,7 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import ChatInput from "./ChatInput";
+import ChatMessage from "./ChatMessage";
 
 export default function ChatContainer({ currentChat }) {
+
+    const handleMessage = (msg) => {
+
+    }
 
     return (
         <>
@@ -10,19 +16,15 @@ export default function ChatContainer({ currentChat }) {
                     <div className="chat-header">
                         <div className="user-details">
                             <div className="avatar">
-                                <img src={currentChat.img} alt="" />
+                                <img src={currentChat.img} className="img" />
                             </div>
-                            <div className="username">
-                                <h3>{currentChat.username}</h3>
+                            <div className="title">
+                                <h3 className="username">{currentChat.username}</h3>
                             </div>
                         </div>
                     </div>
-                    <div className="chat-message">
-
-                    </div>
-                    <div className="chat-input">
-
-                    </div>
+                    <ChatMessage />
+                    <ChatInput handleMessage={handleMessage} />
                 </Container>
             )}
         </>
@@ -41,11 +43,15 @@ const Container = styled.div`
             align-items: center;
             gap: 1rem;
             .avatar{
-                height: 15px;
-                width: 15px;
+                .img{
+                height: 35px;
+                width: 35px;
+                border-radius: 50%;
+            }
             }
             .username{
                 font-size: 15px;
+                color: white;
             }
         }
     }
