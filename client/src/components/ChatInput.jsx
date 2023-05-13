@@ -5,28 +5,42 @@ import { IoMdSend } from "react-icons/io";
 import styled from 'styled-components';
 
 export default function ChatInput() {
-    const [showEmoji, setShowEmoji] = useState(false);
+  const [showEmoji, setShowEmoji] = useState(false);
+  const [msg, setMsg] = useState('');
 
-    const handleEmojiShow = () => {
-        setShowEmoji(!showEmoji)
-    }
+  const handleEmojiShow = () => {
+    setShowEmoji(!showEmoji)
+  }
 
-    return (
-        <Container>
-            <div className='contain'>
-                <div className='emoji'>
-                    <BsEmojiSmileFill onClick={(e) => handleEmojiShow(e)} />
-                    {showEmoji && <Picker />}
-                </div>
-            </div>
-            <form className='input-contain'>
-                <input className='text' placeholder='Type your message here.' />
-                <button className='submit'>
-                    <IoMdSend />
-                </button>
-            </form>
-        </Container>
-    )
+  const handleEmojiClick = (event, emoji) => {
+    let message = msg;
+    message += emoji.emoji;
+    setMsg(message)
+  }
+
+  const handleChange = (e) => {
+    setMsg({
+      ...msg
+      [e.target.name] = e.target.value
+    })
+  }
+
+  return (
+    <Container>
+      <div className='contain'>
+        <div className='emoji'>
+          <BsEmojiSmileFill onClick={(e) => handleEmojiShow(e)} />
+          {showEmoji && <Picker onEmojiClick={handleEmojiClick} />}
+        </div>
+      </div>
+      <form className='input-contain'>
+        <input className='text' placeholder='Type your message here.' value={msg} onChange={(e) => handleChange(e)} />
+        <button className='submit'>
+          <IoMdSend />
+        </button>
+      </form>
+    </Container>
+  )
 };
 
 const Container = styled.div`
