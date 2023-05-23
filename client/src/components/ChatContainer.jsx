@@ -5,9 +5,7 @@ import ChatMessage from "./ChatMessage";
 
 export default function ChatContainer({ currentChat }) {
 
-    const handleMessage = (msg) => {
-
-    }
+    const handleSendMsg = async (msg) => { alert(msg) };
 
     return (
         <>
@@ -16,7 +14,7 @@ export default function ChatContainer({ currentChat }) {
                     <div className="chat-header">
                         <div className="user-details">
                             <div className="avatar">
-                                <img src={currentChat.img} className="img" />
+                                <img src={currentChat.img} className="img" alt="user" />
                             </div>
                             <div className="title">
                                 <h3 className="username">{currentChat.username}</h3>
@@ -24,7 +22,7 @@ export default function ChatContainer({ currentChat }) {
                         </div>
                     </div>
                     <ChatMessage />
-                    <ChatInput handleMessage={handleMessage} />
+                    <ChatInput handleSendMsg={handleSendMsg} />
                 </Container>
             )}
         </>
