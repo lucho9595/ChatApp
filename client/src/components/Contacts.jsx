@@ -7,8 +7,7 @@ import Logo from "../assets/logo.png";
 export default function Contacts({ changeChat }) {
     const dispatch = useDispatch();
     const allUsers = useSelector((state) => state.users.data);
-    const [currentUserName, setCurrentUserName] = useState(undefined);
-    const [currentUserImage, setCurrentUserImage] = useState(undefined);
+    const [currentUser, setCurrentUser] = useState(undefined);
     const [currentSelected, setCurrentSelected] = useState(undefined);
     const [error, setError] = useState(false)
 
@@ -18,14 +17,13 @@ export default function Contacts({ changeChat }) {
                 const data = await JSON.parse(
                     localStorage.getItem('user')
                 );
-                setCurrentUserName(data.username);
-                setCurrentUserImage(data.img);
+                setCurrentUser(data);
             } catch {
                 setError(true);
                 console.log(error);
             }
-            info()
         }
+        info()
         dispatch(getUsers());
     }, [dispatch]);
 
@@ -67,13 +65,17 @@ export default function Contacts({ changeChat }) {
                     })
                 }
             </div>
+            <div className="current-user">
+                    <img src={currentUser?.img} alt="avatar" />
+                    <h2>{currentUser?.username}</h2>
+            </div>
         </Container>
     )
 }
 
 const Container = styled.div`
     display: grid;
-  grid-template-rows: 15% 85%;
+  grid-template-rows: 10% 82% 8%;
   overflow: hidden;
   .imgLogo{
         display: flex;
@@ -149,4 +151,29 @@ const Container = styled.div`
             margin-left: 10px;
         }
     }
+      .current-user {
+        background-color: #a3670275;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        img {
+            height: 41px;
+            border-radius: 50%;
+            max-inline-size: 100%;
+        }
+        h2 {
+            color: white;
+            margin: 0 15px;
+            font-size: 25px;
+        }
+        @media screen and (min-width: 720px) and (max-width: 1080px) {
+        gap: 0.5rem;
+            .username {
+            h2 {
+                font-size: 1rem;
+            }
+            }
+    }
+  }
 `

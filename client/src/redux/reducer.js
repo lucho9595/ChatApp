@@ -6,7 +6,9 @@ import {
     POST_LOGIN,
     LOG_OUT,
     EDIT_PROFILE,
-    DELETE_USER
+    DELETE_USER,
+    GET_MESSAGE,
+    POST_MESSAGE
 } from "./actions";
 
 const initialState = {
@@ -15,20 +17,24 @@ const initialState = {
         : null,
     users: [],
     backUpUsers: [],
+    message: [],
+    backUpMessage: [],
     detail: {}
 }
 
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
+        //----------------------------------------------- USUARIOS ----------------------------------------------------//
+
         case GET_USERS: return {
             ...state,
             users: action.payload,
             backUpUsers: action.payload
-        }
+        };
         case GET_USER: return {
             ...state,
             detail: action.payload
-        }
+        };
         case POST_LOGIN:
             persisLocalStorage("user", action.payload);
             return {
@@ -40,7 +46,7 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 users: action.payload,
                 backUpUsers: action.payload
-            }
+            };
         case LOG_OUT:
             removeLocalStorage(action.payload);
             localStorage.clear();
@@ -54,13 +60,25 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 user: action.payload,
                 users: action.payload
-            }
+            };
         case DELETE_USER:
             const deleteUser = state.backUpUsers.find((pj) => pj.id === action.payload);
             return {
                 ...state,
                 users: deleteUser
             };
+        //----------------------------------------------- MENSAJES ----------------------------------------------------//
+        case GET_MESSAGE: return {
+            ...state,
+            message: action.payload,
+            backUpMessage: action.payload
+        };
+        case POST_MESSAGE: return {
+            ...state,
+            message: action.payload,
+            backUpMessage: action.payload
+        };
+
         default: return state
     }
 };

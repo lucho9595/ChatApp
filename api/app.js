@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const userRoutes = require("./routes/userRoute");
+const messageRoutes = require("./routes/messagesRoute");
+const conversationRoutes = require("./routes/conversationRoute");
 const app = express();
 require("dotenv").config();
 
@@ -13,6 +15,7 @@ app.use(express.json());
 
 //aca decimos que  utilize las rutas de userRoute
 app.use("/api", userRoutes);
-
+app.use("/api/conversations", conversationRoutes);
+app.use("/api/messages", messageRoutes);
 
 module.exports = app;

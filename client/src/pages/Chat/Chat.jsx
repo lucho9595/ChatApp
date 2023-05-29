@@ -11,6 +11,7 @@ import { IoIosArrowDropleftCircle } from "react-icons/io";
 
 export default function Chat() {
     const navigate = useNavigate()
+    const [currentUser, setCurrentUser] = useState(undefined);
     const [currentChat, setCurrentChat] = useState(undefined);
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -20,7 +21,15 @@ export default function Chat() {
         if (!localStorage.getItem("user")) {
             navigate("/");
         } else {
-            setIsLoaded(true);
+            const info = async () => {
+                try {
+                    setCurrentUser(await JSON.parse(localStorage.getItem('user')));
+                    setIsLoaded(true);
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+            info()
         }
     }, [navigate]);
 
@@ -43,7 +52,7 @@ export default function Chat() {
                     {isLoaded && currentChat === undefined ? (
                         <Welcome />
                     ) : (
-                        <ChatContainer currentChat={currentChat} />
+                        <ChatContainer currentChat={currentChat} currentUser={currentUser} />
                     )}
                 </div>
             </div>

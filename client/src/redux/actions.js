@@ -7,6 +7,10 @@ export const POST_LOGIN = "POST_LOGIN";
 export const LOG_OUT = "LOG_OUT";
 export const EDIT_PROFILE = "EDIT_PROFILE";
 export const DELETE_USER = "DELETE_USER";
+export const GET_MESSAGE = "GET_MESSAGE";
+export const POST_MESSAGE = "POST_MESSAGE";
+
+//----------------------------------------------- USUARIOS ----------------------------------------------------//
 
 //traer todos los usuarios
 export function getUsers() {
@@ -104,6 +108,38 @@ export function deleteUser(id) {
                 type: DELETE_USER,
                 payload: deleteUser
             });
+        } catch (error) {
+            console.log(error)
+        }
+    }
+};
+
+//----------------------------------------------- MENSAJES ----------------------------------------------------//
+
+//agregar mensaje a la base de datos:
+export function createdMsg(body) {
+    return async function (dispatch) {
+        try {
+            const created = await axios.post(`http://localhost:4000/api/messages/addMsg`, body)
+            return dispatch({
+                type: POST_MESSAGE,
+                payload: created,
+            });
+        } catch (error) {
+            console.log(error)
+        }
+    }
+};
+
+//traer todos los mensajes de la base de datos:
+export function getAllMsg() {
+    return async function (dispatch) {
+        try {
+            let allMessage = await axios.get("http://localhost:4000/api/messages/getMsg")
+            return dispatch({
+                type: GET_MESSAGE,
+                payload: allMessage.data
+            })
         } catch (error) {
             console.log(error)
         }
