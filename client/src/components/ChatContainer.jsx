@@ -1,19 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ChatInput from "./ChatInput";
-import ChatMessage from "./ChatMessage";
-import { createdMsg } from "../redux/actions";
+import { createdMsg, getAllConv, getMessages } from "../redux/actions";
 import { useDispatch } from "react-redux";
 
 export default function ChatContainer({ currentChat, currentUser }) {
-    console.log(currentUser)
     const dispatch = useDispatch();
+    const [msg, setMsg] = useState([]);
+    // const [conversation, setConversation] = useState([])
 
-    const handleSendMsg = async (msg) => {dispatch(createdMsg({
-        conversationId: currentChat._id,
-        message: msg,
-        sender: currentUser._id,
-    }))};
+    const handleSendMsg = async (msg) => {
+        dispatch(createdMsg({
+            conversationId: currentChat._id,
+            message: msg,
+            sender: currentUser._id,
+        }))
+    };
+
+    useEffect(() => {
+        const info = async () => {
+            const response = await dispatch(getMessages());
+            setMsg(response.payload)
+        }
+        info()
+        dispatch(getAllConv())
+    }, [dispatch])
+
+    console.log(msg)
 
     return (
         <>
@@ -29,7 +42,6 @@ export default function ChatContainer({ currentChat, currentUser }) {
                             </div>
                         </div>
                     </div>
-                    <ChatMessage />
                     <ChatInput handleSendMsg={handleSendMsg} />
                 </Container>
             )}

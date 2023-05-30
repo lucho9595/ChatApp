@@ -8,7 +8,9 @@ import {
     EDIT_PROFILE,
     DELETE_USER,
     GET_MESSAGE,
-    POST_MESSAGE
+    POST_MESSAGE,
+    GET_CONVERSATION,
+    POST_CONVERSATION
 } from "./actions";
 
 const initialState = {
@@ -19,6 +21,8 @@ const initialState = {
     backUpUsers: [],
     message: [],
     backUpMessage: [],
+    conversation: [],
+    backUpConversation: [],
     detail: {}
 }
 
@@ -77,6 +81,17 @@ const rootReducer = (state = initialState, action) => {
             ...state,
             message: action.payload,
             backUpMessage: action.payload
+        };
+        //----------------------------------------------- CONVERSACIONES ----------------------------------------------------//
+        case GET_CONVERSATION: return {
+            ...state,
+            conversation: action.payload,
+            backUpConversation: action.payload
+        };
+        case POST_CONVERSATION: return {
+            ...state,
+            conversation: action.payload,
+            backUpConversation: action.payload
         };
 
         default: return state

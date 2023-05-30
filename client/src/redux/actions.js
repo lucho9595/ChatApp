@@ -9,6 +9,8 @@ export const EDIT_PROFILE = "EDIT_PROFILE";
 export const DELETE_USER = "DELETE_USER";
 export const GET_MESSAGE = "GET_MESSAGE";
 export const POST_MESSAGE = "POST_MESSAGE";
+export const GET_CONVERSATION = "GET_CONVERSATION";
+export const POST_CONVERSATION = "POST_CONVERSATION";
 
 //----------------------------------------------- USUARIOS ----------------------------------------------------//
 
@@ -132,13 +134,45 @@ export function createdMsg(body) {
 };
 
 //traer todos los mensajes de la base de datos:
-export function getAllMsg() {
+export function getMessages() {
     return async function (dispatch) {
         try {
-            let allMessage = await axios.get("http://localhost:4000/api/messages/getMsg")
+            let messages = await axios.get("http://localhost:4000/api/messages/getMsg")
             return dispatch({
                 type: GET_MESSAGE,
-                payload: allMessage.data
+                payload: messages.data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+};
+
+//----------------------------------------------- CONVERSACIONES ----------------------------------------------------//
+//agregar conversacion a la base de datos:
+export function createdConv(body) {
+    return async function (dispatch) {
+        try {
+            const created = await axios.post(`http://localhost:4000/api/conversations/newConv`, body)
+            return dispatch({
+                type: POST_CONVERSATION,
+                payload: created,
+            });
+        } catch (error) {
+            console.log(error)
+        }
+    }
+};
+
+//traer todos las conversaciones de la base de datos:
+export function getAllConv() {
+    return async function (dispatch) {
+        try {
+            let allConversations = await axios.get("http://localhost:4000/api/conversations/getConv")
+            console.log(allConversations)
+            return dispatch({
+                type: GET_CONVERSATION,
+                payload: allConversations.data
             })
         } catch (error) {
             console.log(error)
